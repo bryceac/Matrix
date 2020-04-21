@@ -357,6 +357,9 @@ extension Matrix: RandomAccessCollection, MutableCollection {
                     index.column = 0
                 }
             }
+
+            // make sure index does not go beyond endIndex
+            index = index > endIndex ? endIndex: index
         } else {
 
             // initiate loop based on the absolute value of the distance
@@ -368,6 +371,9 @@ extension Matrix: RandomAccessCollection, MutableCollection {
                     index.column = COLUMNS-1
                 }
             }
+
+            // make sure index does not go beyond startIndex
+            index = index < startIndex ? startIndex : index
         }
 
         // return index
