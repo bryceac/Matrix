@@ -468,6 +468,9 @@ extension Matrix {
         return column
     } // end function
 
+    /**
+    shuffles elements in grid in place.
+    */
     public func shuffle() {
         grid = self.shuffled().chunked(into: COLUMNS)
     }
