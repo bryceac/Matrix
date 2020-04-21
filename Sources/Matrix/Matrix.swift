@@ -237,7 +237,7 @@ extension Matrix: Hashable where T: Hashable {
 } // end extension
 
 /*extension to make class a mutable colllection that can be traversed from first to last or vice versa. */
-extension Matrix: BidirectionalCollection, MutableCollection {
+extension Matrix: RandomAccesCollection, MutableCollection {
     
     /**
      Position of a Matrix Element
@@ -316,6 +316,88 @@ extension Matrix: BidirectionalCollection, MutableCollection {
         // return new index
         return index
     } // end method
+
+    /**
+    get an index by offsetting a given index.
+    - Paramters:
+        - paramter i: index to start with.
+        - parameter distance: the offset.
+    - Returns: Index offset by a given ammount.
+    - Note: Like other implementations, negative offsets go backward.
+    */
+    public func index(_ i: Index, offsetBy distance: Int) -> Index {
+        var index = i
+
+        // base direction off whether offset is negative or positive
+        if distance.signum() == 0 {
+            for _ in 1...distance {
+                if index.column < COLUMNS-1 {
+                    index.column += 1
+                } else {
+                    index.row += 1
+                    index.column = 0
+                }
+            }
+        } else {
+
+            // initiate loop based on the absolute value of the distance
+            for _ in 1...abs(distance) {
+                if index.column > 0 {
+                    index.column -= 1
+                } else {
+                    index.row -= 1
+                    index.column = COLUMNS-1
+                }
+            }
+        }
+
+        return index
+    } // end function
+
+    /**
+    calculate the distance between two indices.
+    - Parameters:
+        - parameter start: index to start from
+        - parameter end: index to compare with
+    - Returns: a positive or negative integer, depending on which index was larger.
+    */
+    func distance(from start: Index, to end: Index) -> Int {
+        var steps = 0
+        var index = start
+
+        /* 
+        Determine whether start index is greater than or less than end index.
+
+        Depending on result, execute appropriate loop to get start index to be equal to the end, while counting iterations.
+        */
+        switch index {
+            case let i where i < end:
+                while index < end {
+                    if index.column < COLUMNS-1 {
+                        index.column += 1
+                    } else {
+                        index.row += 1
+                        index.column = 0
+                    }
+
+                    steps += 1
+                }
+            case let i where i > end:
+                while index > end {
+                    if index.column > 0 {
+                        index.column -= 1
+                    } else {
+                        index.row -= 1
+                        index.column = COLUMNS-1
+                    }
+                    
+                    steps -= 1
+                }
+            default: ()
+        }
+
+        return steps
+    }
     
     // MARK: Subscripts
     
