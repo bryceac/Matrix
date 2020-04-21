@@ -468,9 +468,8 @@ extension Matrix {
         return column
     } // end function
 
-    // override the shuffle method, to make it work properly
     override public func shuffle() {
-        self = Matrix(withGrid: self.shuffled().chunked(into: COLUMNS))
+        grid = self.shuffled().chunked(into: COLUMNS)
     }
 } // end extension
 

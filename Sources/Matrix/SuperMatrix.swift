@@ -35,10 +35,6 @@ public class SuperMatrix<T: Codable, Element: Codable>: Matrix<T> {
         // return decoded SuperMatrix
         return DECODED_SUPER_MATRIX
     }
-
-    override public func shuffle() {
-        self = SuperMatrix(withGrid: self.shuffled().chunked(into: COLUMNS))
-    }
 }
 
 // extension that adds functionality only if the given type is itself a matrix
