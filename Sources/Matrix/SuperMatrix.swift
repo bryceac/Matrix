@@ -82,7 +82,7 @@ extension SuperMatrix where T == Matrix<Element> {
         var column: [[Element]] = []
         
         // loop through each matrix in column
-        for matrix in column(parent) {
+        for matrix in super.column(parent) {
             
             // append column data to array
             column.append(matrix.column(c))
