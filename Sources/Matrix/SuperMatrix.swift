@@ -21,6 +21,7 @@ public class SuperMatrix<T: Codable, Element: Codable>: Matrix<T> {
     /**
     class method to load Super Matrices from JSON.
     - parameter path: file path for JSON
+    - Throws: can throws the same errors as the superclass implementation, which would be a `DecodingError` or an error deal with the file.
     - Returns: nil if file could not be read or JSON can be parsed.
     - Note: Like the Matrix class implementation, this method is not to be used on remote files, due to how data is grabbed.
     */

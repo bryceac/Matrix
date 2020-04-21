@@ -131,6 +131,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     /**
     class method that allows Matrices to be loaded from a file.
     - parameter path: the URL for the JSON file.
+    - Throws: any errors that crop up from reading files or decoding te JSON, which would be a `DecodingError`.
     - Returns: if File cannot be loaded or parsed, nil will be returned.
     - Note: This method is not to be used with remote files, due to how it grabs the data
     */
@@ -163,6 +164,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     /**
     save JSON to a particular path.
     - parameter path: file path
+    - Throws: an error regarding the writing of the file, in the event it fails to save.
     */
     public func save(to path: URL) throws {
 
