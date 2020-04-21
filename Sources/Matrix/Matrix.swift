@@ -282,6 +282,11 @@ extension Matrix: RandomAccessCollection, MutableCollection {
      */
     public func index(before i: Index) -> Index {
         
+        // make sure given indice comes after startIndex, otherwise return startIndex
+        guard i > startIndex else {
+            return startIndex
+        }
+        
         // store index in variable
         var index = i
         
@@ -293,7 +298,6 @@ extension Matrix: RandomAccessCollection, MutableCollection {
             index.column = COLUMNS-1
         }
         
-        // return new index
         return index
     } // end method
     
@@ -301,6 +305,11 @@ extension Matrix: RandomAccessCollection, MutableCollection {
      retrieve index after a given index.
      */
     public func index(after i: Index) -> Index {
+
+        // make sure index comes before endIndex, other return endIndex
+        guard i < endIndex else {
+            return endIndex
+        }
         
         // store index in variable
         var index = i
