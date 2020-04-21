@@ -97,7 +97,7 @@ public class Matrix<T: Codable>: Codable {
         let JSON_DECODER = JSONDecoder()
 
         // attempt to parse JSON
-        guard let JSON_DATA = Data(contentsOf: path), let MATRIX = try? JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA) else { return nil }
+        guard let JSON_DATA = try? Data(contentsOf: path), let MATRIX = try? JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA) else { return nil }
 
         // return decoded Matrix object
         return MATRIX

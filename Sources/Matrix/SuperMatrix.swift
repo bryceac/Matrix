@@ -24,13 +24,13 @@ public class SuperMatrix<T: Codable, Element: Codable>: Matrix<T> {
     - Returns: nil if file could not be read or JSON can be parsed.
     - Note: Like the Matrix class implementation, this method is not to be used on remote files, due to how data is grabbed.
     */
-    override public class func load(from path: URL) -> SuperMatrix<T, Element>? {
+    public class func load(from path: URL) -> SuperMatrix<T, Element>? {
         
         // create a decoder object
         let JSON_DECODER = JSONDecoder()
         
         // attempt to parse JSON from file
-        guard let JSON_DATA = Data(contentsOf: path), let DECODED_SUPER_MATRIX = try? JSON_DECODER.decode(SuperMatrix<T, Element>.self, from: JSON_DATA) else { return nil }
+        guard let JSON_DATA = try? Data(contentsOf: path), let DECODED_SUPER_MATRIX = try? JSON_DECODER.decode(SuperMatrix<T, Element>.self, from: JSON_DATA) else { return nil }
 
         // return decoded SuperMatrix
         return DECODED_SUPER_MATRIX
