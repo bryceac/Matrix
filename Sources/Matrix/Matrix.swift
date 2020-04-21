@@ -175,7 +175,11 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         guard let ENCODED_MATRIX = try? JSON_ENCODER.encode(self) else { return }
 
         // attempt to write data to path
-        try? ENCODED_MATRIX.write(to: path, options: .atomic)
+        do {
+            try ENCODED_MATRIX.write(to: path, options: .atomic)
+        } catch {
+            print(error)
+        }
     }
     
     /**
