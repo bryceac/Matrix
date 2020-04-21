@@ -8,4 +8,64 @@
 
 ==Notes==
 
-This library was created as a little side project that would make it easier to
+This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too. Anything earlier than 5.1 is not guaranteed to work.
+
+===Questions===
+
+<ol>
+<li>
+<dl>
+<dt span=fontweight:bold">Why create yet another Matrix library?</dt>
+<dd>
+<p>While many Matrix libraries exist, many specializing in the mathematically, there were not any good enough to be useable for things like Sudoku puzzle, as well as let me learn a bit what it takes to create a collection.</p>
+<p>However, since the types defined are all generics, they can be used for other purposes.</p>
+</dd>
+</dl>
+</li>
+</ol>
+
+===Features===
+
+<ul>
+<li>easy saving to and loading from JSON files.</li>
+<li>ability to create matrix of Matrices.</li>
+<li>method for to grab particular rows. (only in a matrix of matrices)</li>
+<li>subscripts to grab rows and elements in graph=like manner.</li>
+<li>methods to grab data from certain columns.</li>
+<li>grabbing random elements from matrix.</li>
+<li>ability to shuffle matrices and use other methods available to swift collections.</li>
+</ul>
+
+===Known Issues===
+
+<ul>
+<li>Shuffling matrix of matrices in place does not really shuffle matrix.</li>
+</ul>
+
+===Installing===
+
+To be able to use this library, add the repository to the list of dependencies in Swift package.
+
+===Usage===
+
+====Create Matrix====
+
+<pre>
+let matrix = Matrix(withRows: 3, columns: 3, andDefaultValue: true)
+</pre>
+
+This creates a 3x3 matrix, where all rows and columns have a value of true. The type of the matrix is inferred to be Matrix<Bool>.
+
+====Matrix from 2D array====
+
+<pre>
+let block = Matrix(withGrid: [Int](1...9).chunked(into: 3))
+</pre>
+
+This creates a matrix with rows and columns determined by the number of arrays and the array with the most elements respectively.
+
+The chunked(into:) method is not native to Swift, but is implemented by extension that is included with the library to turn an array into a 2D array.
+
+====Matrix of Matrices====
+
+
