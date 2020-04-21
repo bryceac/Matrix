@@ -91,7 +91,7 @@ public class Matrix<T: Codable>: Codable {
     - Returns: if File cannot be loaded or parsed, nil will be returned.
     - Note: This method is not to be used with remote files, due to how it grabs the data
     */
-    class func load(from path: URL) -> Matrix<T>? {
+    public class func load(from path: URL) -> Matrix<T>? {
         
         // create JSON decoder object
         let JSON_DECODER = JSONDecoder()
