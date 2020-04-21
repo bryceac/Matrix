@@ -29,9 +29,8 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 <ul>
 <li>easy saving to and loading from JSON files.</li>
 <li>ability to create matrix of Matrices.</li>
-<li>method for to grab particular rows. (only in a matrix of matrices)</li>
 <li>subscripts to grab rows and elements in graph=like manner.</li>
-<li>methods to grab data from certain columns.</li>
+<li>method to grab data from certain columns.</li>
 <li>grabbing random elements from matrix.</li>
 <li>ability to shuffle matrices and use other methods available to swift collections.</li>
 </ul>
@@ -65,22 +64,6 @@ let block = Matrix(withGrid: [Int](1...9).chunked(into: 3))
 This creates a matrix with rows and columns determined by the number of arrays and the array with the most elements respectively.
 
 The chunked(into:) method is not native to Swift, but is implemented by extension that is included with the library to turn an array into a 2D array.
-
-====Matrix of Matrices====
-
-While from the above, it is quite simple to create a matrix of matrices (and is certainly possible), this is not the best way to do so, because subscripts and functions would no longer work properly.
-
-Instead, the best thing to do, aside from making a matrix with desired number of rows and columns to begin with, is to use the SuperMatrix class, which has methods to grab particular rows and columns.
-
-Initialization is similar to a regular matrix, but because SuperMatrix expects two generic types (one being the type of Matrix and the holds the type of the object), type cannot be inferred.
-
-As such, a SuperMatrix would be initialized like this:
-
-<pre>
-let blocks: SuperMatrix<Matrix<Int>, Int> = SuperMatrix(withGrid: [Matrix<Int>](repeating: block, count: 9).chunked(into: 3))
-</pre>
-
-Like a regular Matrix, this will produce a 3x3 matrix, and will contain 9 3x3 matrices.
 
 ====Retrieving Rows====
 
