@@ -132,7 +132,7 @@ public class Matrix<T: Codable>: Codable {
         guard let ENCODED_MATRIX = try? JSON_ENCODER.encode(self) else { return }
 
         // attempt to write data to path
-        try? ENCODED_MATRIX?.write(to: path, options: .atomic)
+        try? ENCODED_MATRIX.write(to: path, options: .atomic)
     }
     
     /**
