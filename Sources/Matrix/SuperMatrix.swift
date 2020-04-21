@@ -35,6 +35,13 @@ public class SuperMatrix<T: Codable, Element: Codable>: Matrix<T> {
         // return decoded SuperMatrix
         return DECODED_SUPER_MATRIX
     }
+
+    /**
+    shuffles Matrices around.
+    */
+    public func shuffle() {
+        grid = self.shuffled().chunked(int: COLUMNS)
+    }
 }
 
 // extension that adds functionality only if the given type is itself a matrix
