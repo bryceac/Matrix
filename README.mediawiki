@@ -88,7 +88,7 @@ To retrieve a random element from the matrix, you can do something like this:
 block.randomElement()!
 </pre>
 
-To retrieve an element in a particular point, you would do something this this:
+To retrieve an element in a particular point, you would do something like this:
 
 <pre>
 block[1,1]
