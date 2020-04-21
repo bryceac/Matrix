@@ -68,4 +68,22 @@ The chunked(into:) method is not native to Swift, but is implemented by extensio
 
 ====Matrix of Matrices====
 
+While from the above, it is quite simple to create a matrix of matrices (and is certainly possible), this is not the best way to do so, because subscripts and functions would no longer work properly.
 
+Instead, the best thing to do, aside from making a matrix with desired number of rows and columns to begin with, is to use the SuperMatrix class, which has methods to grab particular rows and columns.
+
+Initialization is similar to a regular matrix, but because SuperMatrix expects two generic types (one being the type of Matrix and the holds the type of the object), type cannot be inferred.
+
+As such, a SuperMatrix would be initialized like this:
+
+<pre>
+let blocks: SuperMatrix<Matrix<Int>, Int> = SuperMatrix(withGrid: [Matrix<Int>](repeating: block, count: 9).chunked(into: 3))
+</pre>
+
+Like a regular Matrix, this will produce a 3x3 matrix, and will contain 9 3x3 matrices.
+
+====Retrieving Rows====
+
+The way to retrieve rows varies, depending on what is desired and being dealt with.
+
+If you are dealing
