@@ -265,7 +265,7 @@ extension Matrix: RandomAccessCollection, MutableCollection {
     // MARK: Computed Properties
     
     /**
-     first Index in collection
+     first Index in collection.
      */
     public var startIndex: Index { return Index(row: 0, column: 0) }
     
