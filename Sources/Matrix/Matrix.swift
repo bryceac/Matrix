@@ -1,7 +1,7 @@
 import Foundation
 
 /**
- class that represents Matrices of fixed constraints
+ class that represents Matrices of fixed constraints.
  */
 public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessCollection, MutableCollection {
     

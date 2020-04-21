@@ -17,7 +17,7 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 <dl>
 <dt span=fontweight:bold">Why create yet another Matrix library?</dt>
 <dd>
-<p>While many Matrix libraries exist, many specializing in the mathematically, there were not any good enough to be useable for things like Sudoku puzzle, as well as let me learn a bit what it takes to create a collection.</p>
+<p>While many Matrix libraries exist, many specializing in the mathematical area, there were not any good enough to be useable for things like Sudoku puzzle, as well as let me learn a bit what it takes to create a collection.</p>
 <p>However, since the types defined are all generics, they can be used for other purposes.</p>
 </dd>
 </dl>
@@ -31,7 +31,7 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 <li>subscripts to grab rows and elements in graph-like manner.</li>
 <li>method to grab data from certain columns.</li>
 <li>grabbing random elements from matrix.</li>
-<li>ability to shuffle matrices and use other methods available to swift collections.</li>
+<li>ability to shuffle matrices and use other methods available to all swift collections.</li>
 </ul>
 
 ===Installing===
@@ -60,6 +60,38 @@ The chunked(into:) method is not native to Swift, but is implemented by extensio
 
 ====Retrieving Rows====
 
-The way to retrieve rows varies, depending on what is desired and being dealt with.
+To retrieve a row from the matrix, all you would need to do is something like this:
 
-If you are dealing
+<pre>
+block[0]
+</pre>
+
+Since 2D arrays are the backbone of a Matrix object, matrices are also start at 0, rather than 1.
+
+====Retrieving Columns====
+
+To retrieve a column, you would do it like this:
+
+<pre>
+block.column(0)
+</pre>
+
+This will retrieve all elements in the first column of the matrix.
+
+====Retrieving Elements====
+
+Elements can be retrieved in a number of ways, depending on whether you want a particular object or a random one.
+
+To retrieve a random element from the matrix, you can do something like this:
+
+<pre>
+block.randomElement()!
+</pre>
+
+To retrieve an element in a particular point, you would do something this this:
+
+<pre>
+block[1,1]
+</pre>
+
+This will retrieve the second element in the second row.
