@@ -3,7 +3,7 @@ import Foundation
 /**
  class that represents Matrices of fixed constraints
  */
-public class Matrix<T: Codable>: Codable {
+public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessCollection, MutableCollection {
     
     // MARK: Properties
     /**
@@ -21,8 +21,30 @@ public class Matrix<T: Codable>: Codable {
         - Returns: Matrix of the initialized type
      */
     public var grid: [[T]] = []
+
+    /**
+     first Index in collection.
+     */
+    public var startIndex: Index { return Index(row: 0, column: 0) }
     
-    // MARK: Enumerations
+    /**
+     ending index in collection.
+     - Note: value is always going to be out of bounds.
+     */
+    public var endIndex: Index { return Index(row: ROWS, column: 0) }
+
+    public var description: String {
+        var content = ""
+        
+        for row in grid {
+            for (index, item) in row.enumerated() {
+                content += index != row.indices.last! ? "\(item)" : "\(item)\r\n"
+            }
+        }
+        return content
+    }
+    
+    // MARK: Enumerations & Structures
     
     /**
         enumeration that helps in specifies the keys used in serialization and deserialization
@@ -30,10 +52,31 @@ public class Matrix<T: Codable>: Codable {
     public enum CodingKeys: String, CodingKey {
         case grid
     }
+
+     /**
+     Position of a Matrix Element
+     */
+    public struct Index: Comparable {
+        /**
+         row index
+         */
+        public var row: Int
+        
+        /**
+         column index
+         */
+        public var column: Int
+        
+        public static func ==(lhs: Index, rhs: Index) -> Bool {
+            return lhs.row == rhs.row && lhs.column == rhs.column
+        }
+        
+        public static func < (lhs: Index, rhs: Index) -> Bool {
+            return lhs.row < rhs.row || lhs.column < rhs.column
+        }
+    } // end struct
     
     // MARK: Initializers
-    
-    // defsault initializer
     
     /**
      Initializer that can be used to create a Matrix with a particular value.
@@ -163,120 +206,7 @@ public class Matrix<T: Codable>: Codable {
         // return results
         return isValid
     }
-    
-    // MARK: Subscripts
-    
-    // subscripts that allow data to be retrieved in a coordinate manner
-    public subscript(row: Int) -> [T] {
-        get {
-            guard isValidIndex(row: row) else {
-                fatalError("Index out of Bounds.")
-            }
-            
-            return grid[row]
-        }
-        
-        set {
-            guard isValidIndex(row: row) else {
-                fatalError("Index out of Bounds.")
-            }
-            
-            grid[row] = newValue
-        }
-    } // end subscript
-    
-    public subscript(row: Int, column: Int) -> T {
-        get {
-            guard isValidIndex(row: row, column: column) else {
-                fatalError("Index out of Bounds")
-            }
-            
-            return grid[row][column]
-        }
-        
-        set {
-            guard isValidIndex(row: row, column: column) else {
-                fatalError("Index out of Bounds")
-            }
-            
-            grid[row][column] = newValue
-        }
-    } // end subscript
-} // end class
 
-// MARK: Extensions
-
-// extension to make class conform to CustomStringConvertible
-extension Matrix: CustomStringConvertible {
-    public var description: String {
-        var content = ""
-        
-        for row in grid {
-            for (index, item) in row.enumerated() {
-                content += index != row.indices.last! ? "\(item)" : "\(item)\r\n"
-            }
-        }
-        return content
-    }
-} // end extension
-
-// extension to make class automatically conform to Equatable
-extension Matrix: Equatable where T: Equatable {
-    public static func ==(lhs: Matrix, rhs: Matrix) -> Bool {
-        return lhs.ROWS == rhs.ROWS && lhs.COLUMNS == rhs.COLUMNS
-    }
-} // end extension
-
-// extension to make class automatically conform to Hashable
-extension Matrix: Hashable where T: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(ROWS)
-        hasher.combine(COLUMNS)
-        hasher.combine(grid)
-    }
-} // end extension
-
-/*extension to make class a mutable colllection that can be traversed from first to last or vice versa. */
-extension Matrix: RandomAccessCollection, MutableCollection {
-    
-    /**
-     Position of a Matrix Element
-     */
-    public struct Index: Comparable {
-        /**
-         row index
-         */
-        public var row: Int
-        
-        /**
-         column index
-         */
-        public var column: Int
-        
-        public static func ==(lhs: Index, rhs: Index) -> Bool {
-            return lhs.row == rhs.row && lhs.column == rhs.column
-        }
-        
-        public static func < (lhs: Index, rhs: Index) -> Bool {
-            return lhs.row < rhs.row || lhs.column < rhs.column
-        }
-    } // end struct
-    
-    // MARK: Computed Properties
-    
-    /**
-     first Index in collection.
-     */
-    public var startIndex: Index { return Index(row: 0, column: 0) }
-    
-    /**
-     ending index in collection.
-     - Note: value is always going to be out of bounds.
-     */
-    public var endIndex: Index { return Index(row: ROWS, column: 0) }
-    
-    // MARK: Functions
-    
     /**
      retrieve an index preceeding a given index.
      */
@@ -417,31 +347,15 @@ extension Matrix: RandomAccessCollection, MutableCollection {
                         index.column = COLUMNS-1
                     }
                     
+                    // converts steps to negative
                     steps -= 1
                 }
             default: ()
         }
 
         return steps
-    }
-    
-    // MARK: Subscripts
-    
-    // subscript needed to make it possible to use an index object
-    public subscript(position: Index) -> T {
-        get {
-            return self[position.row, position.column]
-        }
-        
-        set {
-            self[position.row, position.column] = newValue
-        }
-    } // end subscript
-    
-} // end extension
+    } // end function
 
-// extension that will add things to class, regardless of what the type conforms to
-extension Matrix {
     /**
      retrieve elements in a given column.
      - Parameter c: the column number
@@ -473,6 +387,74 @@ extension Matrix {
     */
     public func shuffle() {
         grid = self.shuffled().chunked(into: COLUMNS)
+    }
+    
+    // MARK: Subscripts
+    
+    // subscripts that allow data to be retrieved in a coordinate manner
+    public subscript(row: Int) -> [T] {
+        get {
+            guard isValidIndex(row: row) else {
+                fatalError("Index out of Bounds.")
+            }
+            
+            return grid[row]
+        }
+        
+        set {
+            guard isValidIndex(row: row) else {
+                fatalError("Index out of Bounds.")
+            }
+            
+            grid[row] = newValue
+        }
+    } // end subscript
+    
+    public subscript(row: Int, column: Int) -> T {
+        get {
+            guard isValidIndex(row: row, column: column) else {
+                fatalError("Index out of Bounds")
+            }
+            
+            return grid[row][column]
+        }
+        
+        set {
+            guard isValidIndex(row: row, column: column) else {
+                fatalError("Index out of Bounds")
+            }
+            
+            grid[row][column] = newValue
+        }
+    } // end subscript
+
+    // subscript needed to make it possible to use an index object
+    public subscript(position: Index) -> T {
+        get {
+            return self[position.row, position.column]
+        }
+        
+        set {
+            self[position.row, position.column] = newValue
+        }
+    } // end subscript
+} // end class
+
+// MARK: Extensions
+
+// extension to make class automatically conform to Equatable
+extension Matrix: Equatable where T: Equatable {
+    public static func ==(lhs: Matrix, rhs: Matrix) -> Bool {
+        return lhs.ROWS == rhs.ROWS && lhs.COLUMNS == rhs.COLUMNS
+    }
+} // end extension
+
+// extension to make class automatically conform to Hashable
+extension Matrix: Hashable where T: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(ROWS)
+        hasher.combine(COLUMNS)
+        hasher.combine(grid)
     }
 } // end extension
 
