@@ -177,7 +177,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     /**
     save JSON to a particular path.
     - parameter path: file path
-    - Throws: an error regarding the writing of the file, in the event it fails to save.
+    - Throws: an error regarding the writing of the file, in the event it fails to save, or an `EncodigError`.
     */
     public func save(to path: URL) throws {
 

@@ -95,3 +95,38 @@ block[1,1]
 </pre>
 
 This will retrieve the second element in the second row.
+
+====Saving and Loading Matrices====
+
+If desired, matrices can be saved to and loaded from a JSON.
+
+To do this, two methods provided, which are:
+
+<ul>
+<li>load(from:)</li>
+<li>save(to:)</li>
+</ul>
+
+They would be used like this:
+
+<pre>
+let DOCUMENTS_DIRECTORY = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+// try to load Matrix from JSON file in Documents directory
+do {
+    let block: Matrix<Int> = try load(from: DOCUMENTS_DIRECTORY.appendingPathComponent("block").appendingPathExtension("json")) 
+} catc {
+    // code to deal with any DecodingError or errors regarding file access.
+}
+</pre>
+
+First line used to only work on Apple platforms, but has recently been fixed so that it works on Ubuntu.
+
+<pre>
+// attempt to save matrix to file
+do {
+    try block.save(to: DOCUMENTS_DIRECTORY.appendingPathComponent("block").appendingPathExtension("json"))
+} catch {
+    // code to deal with an EncodingError or errors regarding writing files.
+}
+</pre>
