@@ -35,13 +35,6 @@ public class SuperMatrix<T: Codable, Element: Codable>: Matrix<T> {
         // return decoded SuperMatrix
         return DECODED_SUPER_MATRIX
     }
-
-    /**
-    shuffles Matrices around.
-    */
-    public func shuffle() {
-        grid = self.shuffled().chunked(into: COLUMNS)
-    }
 }
 
 // extension that adds functionality only if the given type is itself a matrix
@@ -89,7 +82,7 @@ extension SuperMatrix where T == Matrix<Element> {
         var column: [[Element]] = []
         
         // loop through each matrix in column
-        for matrix in super.column(parent) {
+        for matrix in column(parent) {
             
             // append column data to array
             column.append(matrix.column(c))
