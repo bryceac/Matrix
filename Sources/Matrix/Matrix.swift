@@ -331,8 +331,8 @@ extension Matrix: RandomAccessCollection, MutableCollection {
     - Paramters:
         - paramter i: index to start with.
         - parameter distance: the offset.
-    - Returns: Index offset by a given ammount.
-    - Note: Like other implementations, negative offsets go backward.
+    - Returns: Index with the desired offset.
+    - Note: if specified offset could possibly go out of bounds, either startIndex or endIndex will be returned.
     */
     public func index(_ i: Index, offsetBy distance: Int) -> Index {
 
@@ -344,7 +344,7 @@ extension Matrix: RandomAccessCollection, MutableCollection {
         guard i == startIndex && distance.signum() == 0 || i == endIndex && distance.signum() == -1 else {
             return i
         }
-        
+
         var index = i
 
         // base direction off whether offset is negative or positive
