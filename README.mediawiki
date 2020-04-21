@@ -1,3 +1,11 @@
-# Matrix
+=Matrix=
 
-A description of this package.
+'''Description:''' A Library to create Matrixes easilly, regardless of Operating system.
+
+'''Version:''' 0.1
+
+'''Author:''' Bryce C.
+
+==Notes==
+
+This library was created as a little side project that would make it easier to
