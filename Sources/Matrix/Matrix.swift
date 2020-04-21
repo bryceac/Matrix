@@ -84,6 +84,24 @@ public class Matrix<T: Codable>: Codable {
     }
     
     // MARK: Functions
+
+    /**
+    class method that allows Matrices to be loaded from a file.
+    - parameter path: the URL for the JSON file.
+    - Returns: if File cannot be loaded or parsed, nil will be returned.
+    - Note: This method is not to be used with remote files, due to how it grabs the data
+    */
+    class func loadMatrix(from path: URL) -> Matrix<T>? {
+        
+        // create JSON decoder object
+        let JSON_DECODER = JSONDecoder()
+
+        // attempt to parse JSON
+        guard let JSON_DATA = Data(contentsOf: path), let MATRIX = try? JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA) else { return nil }
+
+        // return decoded Matrix object
+        return MATRIX
+    }
     
     /**
      method used to encode Matrix object to data
@@ -96,6 +114,21 @@ public class Matrix<T: Codable>: Codable {
         
         // attempt to add grid to container
         try container.encode(grid, forKey: .grid)
+    }
+
+    public func save(to path: URL) {
+
+        // create JSONEncoder object
+        let JSON_ENCODER = JSONEncoder()
+
+        // beautify the output, for easy reading
+        JSON_ENCODER.outputFormatting = .prettyPrinted
+
+        // attempt to encode the Matrix
+        guard let ENCODED_MATRIX = try? JSON_ENCODER.encode(self) else { return }
+
+        // attempt to write data to path
+        try? ENCODED_MATRIX?.write(to: path, options: .atomic)
     }
     
     /**
