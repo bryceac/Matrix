@@ -335,6 +335,16 @@ extension Matrix: RandomAccessCollection, MutableCollection {
     - Note: Like other implementations, negative offsets go backward.
     */
     public func index(_ i: Index, offsetBy distance: Int) -> Index {
+
+        /*
+        make sure either offset is negative, if the given index is the endIndex, or positive if the startIndex.
+        
+        Otherwise return the index back without doing anything
+        */
+        guard i == startIndex && distance.signum() == 0 || i == endIndex && distance.signum() == -1 else {
+            return i
+        }
+        
         var index = i
 
         // base direction off whether offset is negative or positive
@@ -360,6 +370,7 @@ extension Matrix: RandomAccessCollection, MutableCollection {
             }
         }
 
+        // return index
         return index
     } // end function
 
