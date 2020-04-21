@@ -28,17 +28,10 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 
 <ul>
 <li>easy saving to and loading from JSON files.</li>
-<li>ability to create matrix of Matrices.</li>
 <li>subscripts to grab rows and elements in graph-like manner.</li>
 <li>method to grab data from certain columns.</li>
 <li>grabbing random elements from matrix.</li>
 <li>ability to shuffle matrices and use other methods available to swift collections.</li>
-</ul>
-
-===Known Issues===
-
-<ul>
-<li>Shuffling matrix of matrices in place does not really shuffle matrix.</li>
 </ul>
 
 ===Installing===
