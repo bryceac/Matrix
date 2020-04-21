@@ -40,7 +40,7 @@ public class SuperMatrix<T: Codable, Element: Codable>: Matrix<T> {
     shuffles Matrices around.
     */
     public func shuffle() {
-        grid = self.shuffled().chunked(int: COLUMNS)
+        grid = self.shuffled().chunked(into: COLUMNS)
     }
 }
 
