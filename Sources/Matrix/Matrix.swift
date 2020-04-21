@@ -116,6 +116,9 @@ public class Matrix<T: Codable>: Codable {
         try container.encode(grid, forKey: .grid)
     }
 
+    /**
+    save JSON to a particular path.
+    */
     public func save(to path: URL) {
 
         // create JSONEncoder object
