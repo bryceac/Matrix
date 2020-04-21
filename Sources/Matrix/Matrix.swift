@@ -118,6 +118,7 @@ public class Matrix<T: Codable>: Codable {
 
     /**
     save JSON to a particular path.
+    - parameter path: file path
     */
     public func save(to path: URL) {
 
