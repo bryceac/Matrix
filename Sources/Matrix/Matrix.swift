@@ -134,13 +134,14 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     - Returns: if File cannot be loaded or parsed, nil will be returned.
     - Note: This method is not to be used with remote files, due to how it grabs the data
     */
-    public class func load(from path: URL) -> Matrix<T>? {
+    public class func load(from path: URL) throws -> Matrix<T> {
         
         // create JSON decoder object
         let JSON_DECODER = JSONDecoder()
 
         // attempt to parse JSON
-        guard let JSON_DATA = try? Data(contentsOf: path), let MATRIX = try? JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA) else { return nil }
+        let JSON_DATA = try Data(contentsOf: path)
+        let MATRIX = try JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA)
 
         // return decoded Matrix object
         return MATRIX
@@ -163,7 +164,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     save JSON to a particular path.
     - parameter path: file path
     */
-    public func save(to path: URL) {
+    public func save(to path: URL) throws {
 
         // create JSONEncoder object
         let JSON_ENCODER = JSONEncoder()
@@ -172,14 +173,10 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         JSON_ENCODER.outputFormatting = .prettyPrinted
 
         // attempt to encode the Matrix
-        guard let ENCODED_MATRIX = try? JSON_ENCODER.encode(self) else { return }
+        let ENCODED_MATRIX = try JSON_ENCODER.encode(self)
 
         // attempt to write data to path
-        do {
-            try ENCODED_MATRIX.write(to: path, options: .atomic)
-        } catch {
-            print(error)
-        }
+        try ENCODED_MATRIX.write(to: path, options: .atomic)
     }
     
     /**
