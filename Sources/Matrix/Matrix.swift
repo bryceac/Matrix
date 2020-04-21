@@ -237,7 +237,7 @@ extension Matrix: Hashable where T: Hashable {
 } // end extension
 
 /*extension to make class a mutable colllection that can be traversed from first to last or vice versa. */
-extension Matrix: RandomAccesCollection, MutableCollection {
+extension Matrix: RandomAccessCollection, MutableCollection {
     
     /**
      Position of a Matrix Element
@@ -361,7 +361,7 @@ extension Matrix: RandomAccesCollection, MutableCollection {
         - parameter end: index to compare with
     - Returns: a positive or negative integer, depending on which index was larger.
     */
-    func distance(from start: Index, to end: Index) -> Int {
+    public func distance(from start: Index, to end: Index) -> Int {
         var steps = 0
         var index = start
 
