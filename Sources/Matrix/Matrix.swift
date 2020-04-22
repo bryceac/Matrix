@@ -3,7 +3,7 @@ import Foundation
 /**
  class that represents Matrices of fixed constraints.
  */
-public struct Matrix<T>: CustomStringConvertible, RandomAccessCollection, MutableCollection {
+public struct Matrix<T> {
     
     // MARK: Properties
     /**
@@ -131,7 +131,7 @@ public struct Matrix<T>: CustomStringConvertible, RandomAccessCollection, Mutabl
     /**
     shuffles elements in grid in place.
     */
-    public func shuffle() {
+    public mutating func shuffle() {
         grid = self.shuffled().chunked(into: COLUMNS)
     }
     
@@ -439,12 +439,12 @@ extension Matrix: RandomAccessCollection, MutableCollection {
     // subscript that allows elements in column to be grabbed.
     public subscript(column column: Int) -> [T] {
         get {
-            guard isValidIndex(column: Int) else {
+            guard isValidIndex(column: column) else {
                 fatalError("Index out of Bounds")
             }
 
             // constant that holds indices with the specified column
-            let COLUMN_INDICES = indices.filter { $0.column == c }
+            let COLUMN_INDICES = indices.filter { $0.column == column }
         
             // return elements in column
             return COLUMN_INDICES.map {
