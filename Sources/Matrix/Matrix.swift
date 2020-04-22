@@ -23,20 +23,6 @@ public struct Matrix<T> {
     public var grid: [[T]] = []
 
     // MARK: Initializers
-
-    /**
-    Initializer that can be used to create an empty matrix.
-
-    - Parameters:
-        - parameter rows: number of rows matrix will have.
-        - parameter columns: number of columns matrix will have.
-    - Returns: empty Matrix object with a certain number of rows and columns.
-    - Note: type cannot be inferred with this initializer, unlike the ones that accept values.
-    */
-    public init(withRows rows: Int, andColumns columns: Int) {
-        (ROWS, COLUMNS) = (rows, columns)
-        grid = [[T]](repeating: [T](), count: rows)
-    }
     
     /**
      Initializer that can be used to create a Matrix with a particular value.
