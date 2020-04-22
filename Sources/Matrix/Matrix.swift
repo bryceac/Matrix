@@ -303,7 +303,7 @@ extension Matrix: RandomAccessCollection, MutableCollection {
         
         Otherwise return the index back without doing anything
         */
-        guard i == startIndex && distance.signum() == 0 || i == endIndex && distance.signum() == -1 else {
+        guard i == startIndex && distance.signum() == 0 || i == endIndex && distance.signum() == -1 || i != startIndex && i != endIndex else {
             return i
         }
 
