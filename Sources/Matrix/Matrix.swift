@@ -3,7 +3,7 @@ import Foundation
 /**
  class that represents Matrices of fixed constraints.
  */
-public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessCollection, MutableCollection {
+public struct Matrix<T>: CustomStringConvertible, RandomAccessCollection, MutableCollection {
     
     // MARK: Properties
     /**
@@ -22,60 +22,6 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
      */
     public var grid: [[T]] = []
 
-    /**
-     first Index in collection.
-     */
-    public var startIndex: Index { return Index(row: 0, column: 0) }
-    
-    /**
-     ending index in collection.
-     - Note: value is always going to be out of bounds.
-     */
-    public var endIndex: Index { return Index(row: ROWS, column: 0) }
-
-    public var description: String {
-        var content = ""
-        
-        for row in grid {
-            for (index, item) in row.enumerated() {
-                content += index != row.indices.last! ? "\(item)" : "\(item)\r\n"
-            }
-        }
-        return content
-    }
-    
-    // MARK: Enumerations & Structures
-    
-    /**
-        enumeration that helps in specifies the keys used in serialization and deserialization
-     */
-    public enum CodingKeys: String, CodingKey {
-        case grid
-    }
-
-     /**
-     Position of a Matrix Element
-     */
-    public struct Index: Comparable {
-        /**
-         row index
-         */
-        public var row: Int
-        
-        /**
-         column index
-         */
-        public var column: Int
-        
-        public static func ==(lhs: Index, rhs: Index) -> Bool {
-            return lhs.row == rhs.row && lhs.column == rhs.column
-        }
-        
-        public static func < (lhs: Index, rhs: Index) -> Bool {
-            return lhs.row < rhs.row || lhs.column < rhs.column
-        }
-    } // end struct
-    
     // MARK: Initializers
 
     /**
@@ -87,7 +33,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     - Returns: empty Matrix object with a certain number of rows and columns.
     - Note: type cannot be inferred with this initializer, unlike the ones that accept values.
     */
-    init(withRows rows: Int, andColumns columns: Int) {
+    public init(withRows rows: Int, andColumns columns: Int) {
         (ROWS, COLUMNS) = (rows, columns)
     }
     
@@ -123,12 +69,153 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         (ROWS, COLUMNS, self.grid) = (grid.count, LONGEST_ROW.count, grid)
     }
     
+    // MARK: Functions
+
+    /**
+     method to check if given index is valid
+     - Parameters:
+        - parameter row: row index.
+        - parameter column: column idex.
+     - Returns: Boolean that specifies whether index is valid.
+     - Note: method is only available in methods and subscripts in the class.
+     */
+    private func isValidIndex(row: Int? = nil, column: Int? = nil) -> Bool {
+        // variable to hold condition results
+        var isValid = false
+        
+        /*
+         attempt to unwrap column, and if successful check if it is valid.
+         
+         Otherwise, check if the row is valid
+         */
+        if let column = column, let row = row {
+            
+            // call self to check row and then check the column
+            isValid = isValidIndex(row: row) && isValidIndex(column: column)
+        } else if let row = row {
+            isValid = row >= 0 && row < ROWS
+        } else if let column = column {
+            isValid = column >= 0 && column < COLUMNS
+        }
+        
+        // return results
+        return isValid
+    }
+
+    /**
+     retrieve elements in a given column.
+     - Parameter c: the column number
+     - Precondition: c must be a value between 0 and 1 less than the total number of columns.
+     - Returns: Array of elements in a given column.
+     */
+    public func column(_ c: Int) -> [T] {
+        guard c >= 0 && c < COLUMNS else {
+            preconditionFailure("column number must be between 0 and \(COLUMNS-1).")
+        }
+        
+        // constant that holds indices with the specified column
+        let COLUMN_INDICES = indices.filter { $0.column == c }
+        
+        // create variable to hold column data
+        var column: [T] = []
+        
+        // add elements to column variable
+        for index in COLUMN_INDICES {
+            column.append(self[index])
+        }
+        
+        // return column elements
+        return column
+    } // end function
+
+    /**
+    shuffles elements in grid in place.
+    */
+    public func shuffle() {
+        grid = self.shuffled().chunked(into: COLUMNS)
+    }
+    
+    // MARK: Subscripts
+    
+    // subscripts that allow data to be retrieved in a coordinate manner
+    public subscript(row: Int) -> [T] {
+        get {
+            guard isValidIndex(row: row) else {
+                fatalError("Index out of Bounds.")
+            }
+            
+            return grid[row]
+        }
+        
+        set {
+            guard isValidIndex(row: row) else {
+                fatalError("Index out of Bounds.")
+            }
+            
+            grid[row] = newValue
+        }
+    } // end subscript
+    
+    public subscript(row: Int, column: Int) -> T {
+        get {
+            guard isValidIndex(row: row, column: column) else {
+                fatalError("Index out of Bounds")
+            }
+            
+            return grid[row][column]
+        }
+        
+        set {
+            guard isValidIndex(row: row, column: column) else {
+                fatalError("Index out of Bounds")
+            }
+            
+            grid[row][column] = newValue
+        }
+    } // end subscript
+} // end structure
+
+// MARK: Extensions
+
+// extension to custom how Matrix is displayed
+extension Matrix: CustomStringConvertible {
+    public var description: String {
+        var content = ""
+        
+        for row in grid {
+            for (index, item) in row.enumerated() {
+                content += index != row.indices.last! ? "\(item)" : "\(item)\r\n"
+            }
+        }
+        return content
+    }
+}
+
+// extension to make class automatically conform to Equatable
+extension Matrix: Equatable where T: Equatable {
+    public static func ==(lhs: Matrix, rhs: Matrix) -> Bool {
+        return lhs.ROWS == rhs.ROWS && lhs.COLUMNS == rhs.COLUMNS
+    }
+} // end extension
+
+// extension to automatically conform to Hashable
+extension Matrix: Hashable where T: Hashable {}
+
+// extension to automatically conform to Codable
+extension Matrix: Codable where T: Codable {
+    /**
+        enumeration that helps in specifies the keys used in serialization and deserialization
+     */
+    public enum CodingKeys: String, CodingKey {
+        case grid
+    }
+
     /**
      Initializer used for decode Matrix object from a Data object.
      - Returns: Matrix object from a Data Object.
      - Note: This method is not be used directly, as the appropriate Encoder object uses the method.
      */
-    public required convenience init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         // create container with certain keys
         let CONTAINER = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -138,29 +225,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         // create Matrix object
         self.init(withGrid: GRID)
     }
-    
-    // MARK: Functions
 
-    /**
-    class method that allows Matrices to be loaded from a file.
-    - parameter path: the URL for the JSON file.
-    - Throws: any errors that crop up from reading files or decoding te JSON, which would be a `DecodingError`.
-    - Returns: if File cannot be loaded or parsed, nil will be returned.
-    - Note: This method is not to be used with remote files, due to how it grabs the data
-    */
-    public class func load(from path: URL) throws -> Matrix<T> {
-        
-        // create JSON decoder object
-        let JSON_DECODER = JSONDecoder()
-
-        // attempt to parse JSON
-        let JSON_DATA = try Data(contentsOf: path)
-        let MATRIX = try JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA)
-
-        // return decoded Matrix object
-        return MATRIX
-    }
-    
     /**
      method used to encode Matrix object to data
      - Note: This function is not to be used directly, since the appropriate Encoder object uses this method.
@@ -174,6 +239,26 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         try container.encode(grid, forKey: .grid)
     }
 
+    /**
+    class method that allows Matrices to be loaded from a file.
+    - parameter path: the URL for the JSON file.
+    - Throws: any errors that crop up from reading files or decoding te JSON, which would be a `DecodingError`.
+    - Returns: if File cannot be loaded or parsed, nil will be returned.
+    - Note: This method is not to be used with remote files, due to how it grabs the data
+    */
+    public static func load(from path: URL) throws -> Matrix<T> {
+        
+        // create JSON decoder object
+        let JSON_DECODER = JSONDecoder()
+
+        // attempt to parse JSON
+        let JSON_DATA = try Data(contentsOf: path)
+        let MATRIX = try JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA)
+
+        // return decoded Matrix object
+        return MATRIX
+    }
+    
     /**
     save JSON to a particular path.
     - parameter path: file path
@@ -193,35 +278,32 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         // attempt to write data to path
         try ENCODED_MATRIX.write(to: path, options: .atomic)
     }
-    
+} // end Codable extension
+
+// extension to make type a true collection
+extension Matrix: RandomAccessCollection, MutableCollection {
     /**
-     method to check if given index is valid
-     - Parameters:
-        - parameter row: row index.
-        - parameter column: column idex.
-     - Returns: Boolean that specifies whether index is valid.
-     - Note: method is only available in methods and subscripts in the class.
+     Position of a Matrix Element
      */
-    private func isValidIndex(row: Int, column: Int? = nil) -> Bool {
-        // variable to hold condition results
-        var isValid = true
-        
-        /*
-         attempt to unwrap column, and if successful check if it is valid.
-         
-         Otherwise, check if the row is valid
+    public struct Index: Comparable {
+        /**
+         row index
          */
-        if let column = column {
-            
-            // call self to check row and then check the column
-            isValid = isValidIndex(row: row) && column >= 0 && column < COLUMNS
-        } else {
-            isValid = row >= 0 && row < ROWS
+        public var row: Int
+        
+        /**
+         column index
+         */
+        public var column: Int
+        
+        public static func ==(lhs: Index, rhs: Index) -> Bool {
+            return lhs.row == rhs.row && lhs.column == rhs.column
         }
         
-        // return results
-        return isValid
-    }
+        public static func < (lhs: Index, rhs: Index) -> Bool {
+            return lhs.row < rhs.row || lhs.column < rhs.column
+        }
+    } // end struct
 
     /**
      retrieve an index preceeding a given index.
@@ -373,76 +455,15 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     } // end function
 
     /**
-     retrieve elements in a given column.
-     - Parameter c: the column number
-     - Precondition: c must be a value between 0 and 1 less than the total number of columns.
-     - Returns: Array of elements in a given column.
+     first Index in collection.
      */
-    public func column(_ c: Int) -> [T] {
-        guard c >= 0 && c < COLUMNS else {
-            preconditionFailure("column number must be between 0 and \(COLUMNS-1).")
-        }
-        
-        // constant that holds indices with the specified column
-        let COLUMN_INDICES = indices.filter { $0.column == c }
-        
-        // create variable to hold column data
-        var column: [T] = []
-        
-        // add elements to column variable
-        for index in COLUMN_INDICES {
-            column.append(self[index])
-        }
-        
-        // return column elements
-        return column
-    } // end function
-
+    public var startIndex: Index { return Index(row: 0, column: 0) }
+    
     /**
-    shuffles elements in grid in place.
-    */
-    public func shuffle() {
-        grid = self.shuffled().chunked(into: COLUMNS)
-    }
-    
-    // MARK: Subscripts
-    
-    // subscripts that allow data to be retrieved in a coordinate manner
-    public subscript(row: Int) -> [T] {
-        get {
-            guard isValidIndex(row: row) else {
-                fatalError("Index out of Bounds.")
-            }
-            
-            return grid[row]
-        }
-        
-        set {
-            guard isValidIndex(row: row) else {
-                fatalError("Index out of Bounds.")
-            }
-            
-            grid[row] = newValue
-        }
-    } // end subscript
-    
-    public subscript(row: Int, column: Int) -> T {
-        get {
-            guard isValidIndex(row: row, column: column) else {
-                fatalError("Index out of Bounds")
-            }
-            
-            return grid[row][column]
-        }
-        
-        set {
-            guard isValidIndex(row: row, column: column) else {
-                fatalError("Index out of Bounds")
-            }
-            
-            grid[row][column] = newValue
-        }
-    } // end subscript
+     ending index in collection.
+     - Note: value is always going to be out of bounds.
+     */
+    public var endIndex: Index { return Index(row: ROWS, column: 0) }
 
     // subscript needed to make it possible to use an index object
     public subscript(position: Index) -> T {
@@ -454,23 +475,22 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
             self[position.row, position.column] = newValue
         }
     } // end subscript
-} // end class
 
-// MARK: Extensions
+    // subscript that allows elements in column to be grabbed.
+    public subscript(column column: Int) -> [T] {
+        get {
+            guard isValidIndex(column: Int) else {
+                fatalError("Index out of Bounds")
+            }
 
-// extension to make class automatically conform to Equatable
-extension Matrix: Equatable where T: Equatable {
-    public static func ==(lhs: Matrix, rhs: Matrix) -> Bool {
-        return lhs.ROWS == rhs.ROWS && lhs.COLUMNS == rhs.COLUMNS
+            // constant that holds indices with the specified column
+            let COLUMN_INDICES = indices.filter { $0.column == c }
+        
+            // return elements in column
+            return COLUMN_INDICES.map {
+                self[$0]
+            }
+        }
     }
-} // end extension
-
-// extension to make class automatically conform to Hashable
-extension Matrix: Hashable where T: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(ROWS)
-        hasher.combine(COLUMNS)
-        hasher.combine(grid)
-    }
-} // end extension
+}
 
