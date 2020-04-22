@@ -98,7 +98,7 @@ This will retrieve the second element in the second row.
 
 ====Saving and Loading Matrices====
 
-If desired, matrices can be saved to and loaded from a JSON.
+If desired, matrices can be saved to and loaded from a file.
 
 To do this, two methods provided, which are:
 
@@ -130,3 +130,7 @@ do {
     // code to deal with an EncodingError or errors regarding writing files.
 }
 </pre>
+
+Both functions utilize Codable under the hood and have their own JSONEncoder and JSONDecoder objects.
+
+However, with the exception of saving, type cannot be inferred.
