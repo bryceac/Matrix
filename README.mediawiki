@@ -37,7 +37,26 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 
 ===Installing===
 
-To be able to use this library, add the repository to the list of dependencies in Swift package.
+To be able to use this library, add the repository to the list of dependencies in your Swift package, like this:
+
+<pre>
+.package(url: "https://github.com/bryceac/Matrix", from: "0.1")
+</pre>
+
+Add Dependency to Target like this:
+
+<pre>
+targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
+        .target(
+            name: "HelloWorld",
+            dependencies: ["Matrix"]),
+        .testTarget(
+            name: "MatrixTests",
+            dependencies: ["Matrix"]),
+    ]
+</pre>
 
 ===Usage===
 
