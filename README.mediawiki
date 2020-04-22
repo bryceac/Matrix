@@ -30,7 +30,6 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 <li>easy saving to and loading from JSON files.</li>
 <li>subscripts to grab rows and elements in graph-like manner.</li>
 <li>method to grab data from certain columns.</li>
-<li>grabbing random elements from matrix.</li>
 <li>ability to shuffle matrices and use other methods available to all swift collections.</li>
 </ul>
 
@@ -132,5 +131,3 @@ do {
 </pre>
 
 Both functions utilize Codable under the hood and have their own JSONEncoder and JSONDecoder objects.
-
-However, with the exception of saving, type cannot be inferred.
