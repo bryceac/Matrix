@@ -40,7 +40,7 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 To be able to use this library, add the repository to the list of dependencies in your Swift package, like this:
 
 <pre>
-.package(url: "https://github.com/bryceac/Matrix", from: "0.1")
+.package(url: "https://github.com/bryceac/Matrix", .branch("master"))
 </pre>
 
 Add Dependency to Target like this:
