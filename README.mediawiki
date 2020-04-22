@@ -138,4 +138,4 @@ The save function automatically formats JSON to be easy to read.
 
 Currently, nothing is planned to be added or removed, as it is good enough to be used in Sudoku puzzle generation.
 
-However, that does not mean that things will not change in the future, if more functionality is needed
+However, that does not mean that things will not change in the future, if more functionality is needed or desired.
