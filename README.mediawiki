@@ -76,7 +76,7 @@ let block = Matrix(withGrid: [Int](1...9).chunked(into: 3))
 
 This creates a matrix with rows and columns determined by the number of arrays and the array with the most elements respectively.
 
-The chunked(into:) method is not native to Swift, but is implemented by extension that is included with the library to turn an array into a 2D array.
+The '''chunked(into:)''' method is not native to Swift, but is implemented by extension that is included with the library to turn an array into a 2D array.
 
 ====Retrieving Rows====
 
