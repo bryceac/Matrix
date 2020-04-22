@@ -35,6 +35,7 @@ public struct Matrix<T> {
     */
     public init(withRows rows: Int, andColumns columns: Int) {
         (ROWS, COLUMNS) = (rows, columns)
+        grid = [T](repeat: [T](), count: columns)
     }
     
     /**
