@@ -131,3 +131,5 @@ do {
 </pre>
 
 Both functions utilize Codable under the hood and have their own JSONEncoder and JSONDecoder objects.
+
+The save function automatically formats JSON to be easy to read.
