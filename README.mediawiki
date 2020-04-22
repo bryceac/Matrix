@@ -28,7 +28,7 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 
 <ul>
 <li>subscripts to grab rows and elements in graph-like manner.</li>
-<li>subscript to grab elements from certain columns.</li>
+<li>subscript to grab certain columns.</li>
 <li>Automatic conformance to Codable and Hashable if given type conforms.</li>
 <li>ability to shuffle matrices and use other methods available to all swift collections.</li>
 </ul>
