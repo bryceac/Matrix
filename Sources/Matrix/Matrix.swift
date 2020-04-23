@@ -307,13 +307,13 @@ extension Matrix: RandomAccessCollection, MutableCollection {
         switch distance.signum() {
             case 1:
                 for _ in 1...distance {
-                    print(index)
                     if index.column < COLUMNS-1 {
                         index.column += 1
                     } else {
                         index.row += 1
                         index.column = 0
                     }
+                    print(index)
                 }
 
                 // make sure index does not go beyond endIndex
