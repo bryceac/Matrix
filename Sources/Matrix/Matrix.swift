@@ -449,3 +449,17 @@ extension Matrix: Hashable where T: Hashable {
     }
 } // end extension
 
+// extension to enable copying
+extension Matrix: NSCopying {
+
+    /**
+    create a duplicate as a new object.
+    - Returns: an Any Object that should be the same as the original.
+    - Note: This must be cast to the appropriate type.
+    */
+    public copy(with zone: NSZone? = nil) -> Any {
+        let copy = Matrix(withGrid: grid)
+        return copy
+    }
+}
+
