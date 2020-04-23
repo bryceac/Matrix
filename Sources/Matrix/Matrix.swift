@@ -457,7 +457,7 @@ extension Matrix: NSCopying {
     - Returns: an Any Object that should be the same as the original.
     - Note: This must be cast to the appropriate type.
     */
-    public copy(with zone: NSZone? = nil) -> Any {
+    public func copy(with zone: NSZone? = nil) -> Any {
         let copy = Matrix(withGrid: grid)
         return copy
     }
