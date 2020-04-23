@@ -390,7 +390,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     
     // MARK: Subscripts
     
-    // subscripts that allow data to be retrieved in a coordinate manner
+    // subscripts that allow data in a row to be retrieved
     public subscript(row: Int) -> [T] {
         get {
             guard isValidIndex(row: row) else {
@@ -409,7 +409,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         }
     } // end subscript
 
-    // subscripts that allow data to be retrieved in a coordinate manner
+    // subscripts that allow data in a column to be retrieved
     public subscript(column column: Int) -> [T] {
         get {
             guard isValidIndex(column: column) else {
