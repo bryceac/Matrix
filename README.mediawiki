@@ -31,7 +31,8 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 <ul>
 <li>subscripts to grab rows and elements in graph-like manner.</li>
 <li>subscript to grab certain columns.</li>
-<li>Automatic conformance to Codable and Hashable if given type conforms.</li>
+<li>methods to grab rows and columns. (SuperMatrix only)</li>
+<li>ability to save and load matrices to and from JSON files.</li>
 <li>ability to shuffle matrices and use other methods available to all swift collections.</li>
 </ul>
 
@@ -98,6 +99,8 @@ block[column: 0]
 
 This will retrieve all elements in the first column of the matrix.
 
+Please note that this subscript cannot be used to manipulate elements to the columns themselves.
+
 ====Retrieving Elements====
 
 Elements can be retrieved in a number of ways, depending on whether you want a particular object or a random one.
@@ -115,6 +118,46 @@ block[1,1]
 </pre>
 
 This will retrieve the second element in the second row.
+
+====Matrix of Matrices====
+
+While it is possible to nest matrices within each other with the normal Matrix type, things do not necessary work very well.
+
+If you desire to create a matrix of matrices (to save the hassle of sitatuations like regions not meeting requirements of Sudoku puzzles, or even retrieving embedded Matrices), it is best to use the SuperMatrix class instead.
+
+As SuperMatrix is a subclass of Matrix, initialization is pratically the same, though type inferrence is not possible.
+
+For this reason, a SuperMatrix would be initialized like this:
+
+<pre>
+let blocks: Super<Matrix<Int>, Int> = SuperMatrix(withGrid: [Matrix<Int>](repeating: block, count, 9).chunked(into: 3))
+</pre>
+
+This will create a 3x3 grid with 9 premade matrices embedded within.
+
+=====Retrieving Rows & Columns=====
+
+While retrieving rows and columns can be done like a normal Matrix object, these will only grab matrices within.
+
+To actually view the see the very first row, you would do something like this:
+
+<pre>
+blocks.row(0, in: 0)
+</pre>
+
+For the first column, it would be like this:
+
+<pre>
+blocks.column(0, in: 0)
+<pre>
+
+These methods can be used for comparisons, but they are unable to manipulate the contents of the rows or columns.
+
+====Saving & Loading====
+
+If desired, matrices and matrices of matrices can be saved to and loaded from local JSON files.
+
+Both
 
 ===Tentative Plans===
 
