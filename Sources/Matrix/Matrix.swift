@@ -314,8 +314,7 @@ extension Matrix: RandomAccessCollection, MutableCollection {
                         index.column = 0
                     }
                 }
-
-                print("index is less than endIndex: \(index < endIndex)")
+                
                 // make sure index does not go beyond endIndex
                 index = index > endIndex ? endIndex : index
             case -1:
