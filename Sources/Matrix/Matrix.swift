@@ -361,7 +361,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
      - Precondition: c must be a value between 0 and 1 less than the total number of columns.
      - Returns: Array of elements in a given column.
      */
-    public func column(_ c: Int) -> [T] {
+    /* public func column(_ c: Int) -> [T] {
         guard c >= 0 && c < COLUMNS else {
             preconditionFailure("column number must be between 0 and \(COLUMNS-1).")
         }
@@ -379,7 +379,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         
         // return column elements
         return column
-    } // end function
+    } // end function */
 
     /**
     shuffles elements in grid in place.
@@ -406,6 +406,23 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
             }
             
             grid[row] = newValue
+        }
+    } // end subscript
+
+    // subscripts that allow data to be retrieved in a coordinate manner
+    public subscript(column column: Int) -> [T] {
+        get {
+            guard isValidIndex(column: column) else {
+                fatalError("Index out of Bounds.")
+            }
+            
+            // constant that holds indices with the specified column
+            let COLUMN_INDICES = indices.filter { $0.column == column }
+        
+            // return elements in column
+            return COLUMN_INDICES.map {
+                self[$0]
+            }
         }
     } // end subscript
     
