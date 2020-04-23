@@ -303,33 +303,34 @@ extension Matrix: RandomAccessCollection, MutableCollection {
 
         var index = i
 
-        // base direction off whether offset is negative or positive
-        if distance.signum() == 0 {
-            for _ in 1...distance {
-                if index.column < COLUMNS-1 {
-                    index.column += 1
-                } else {
-                    index.row += 1
-                    index.column = 0
+        // base direction on whether distance is positive or negative
+        switch distance.signum() {
+            case 1:
+                for _ in 1...distance {
+                    if index.column < COLUMNS-1 {
+                        index.column += 1
+                    } else {
+                        index.row += 1
+                        index.column = 0
+                    }
                 }
-            }
 
-            // make sure index does not go beyond endIndex
-            index = index > endIndex ? endIndex: index
-        } else {
-
-            // initiate loop based on the absolute value of the distance
-            for _ in 1...abs(distance) {
-                if index.column > 0 {
-                    index.column -= 1
-                } else {
-                    index.row -= 1
-                    index.column = COLUMNS-1
+                // make sure index does not go beyond endIndex
+                index = index > endIndex ? endIndex: index
+            case -1:
+                // initiate loop based on the absolute value of the distance
+                for _ in 1...abs(distance) {
+                    if index.column > 0 {
+                        index.column -= 1
+                    } else {
+                        index.row -= 1
+                        index.column = COLUMNS-1
+                    }
                 }
-            }
 
-            // make sure index does not go beyond startIndex
-            index = index < startIndex ? startIndex : index
+                // make sure index does not go beyond startIndex
+                index = index < startIndex ? startIndex : index
+            default: ()
         }
 
         // return index
