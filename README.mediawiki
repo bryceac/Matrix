@@ -157,7 +157,25 @@ These methods can be used for comparisons, but they are unable to manipulate the
 
 If desired, matrices and matrices of matrices can be saved to and loaded from local JSON files.
 
-Both
+to load objects, you would do something like this:
+
+<pre>
+let DOCUMENTS_DIRECTORY = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+if let block = try? Matrix<Int>.load(from: DOCUMENTS_DIRECTORY.appendingPathComponent("block").appendingPathExtension("json")) {
+    // code to initialize if JSON loads successfully.
+}
+</pre>
+
+The first line used to work only on Apple platforms, but now works on Ubuntu too.
+
+To save a file, you would do something like this:
+
+<pre>
+try? block.save(to: DOCUMENTS_DIRECTORY.appendingPathComponent("block").appendingPathExtension("json"))
+</pre>
+
+As can be seen, these functions can throw errors, so it is best not to do things exactly like my example, unless you do not care what the errors are.
 
 ===Tentative Plans===
 
