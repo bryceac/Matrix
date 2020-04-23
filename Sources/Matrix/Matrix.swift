@@ -305,8 +305,8 @@ extension Matrix: RandomAccessCollection, MutableCollection {
 
         // base direction on whether distance is positive or negative
         switch distance.signum() {
-            print(distance)
             case 1:
+                print(distance)
                 for _ in 1...distance {
                     if index.column < COLUMNS-1 {
                         index.column += 1
