@@ -276,39 +276,33 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         
         Otherwise return the index back without doing anything
         */
-        guard i == startIndex && distance.signum() == 0 || i == endIndex && distance.signum() == -1 else {
+        guard i == startIndex && distance.signum() == 1 || i == endIndex && distance.signum() == -1 || i != startIndex && i != endIndex else {
             return i
         }
 
         var index = i
 
-        // base direction off whether offset is negative or positive
-        if distance.signum() == 0 {
-            for _ in 1...distance {
-                if index.column < COLUMNS-1 {
-                    index.column += 1
-                } else {
-                    index.row += 1
-                    index.column = 0
+        // base direction to go on whether distance is positive or negative
+        switch distance.signum() {
+            case 1:
+                for _ in 1...distance {
+                    if index.column < COLUMNS-1 {
+                        index.column += 1
+                    } else {
+                        index.row += 1
+                        index.column = 0
+                    }
                 }
-            }
-
-            // make sure index does not go beyond endIndex
-            index = index > endIndex ? endIndex: index
-        } else {
-
-            // initiate loop based on the absolute value of the distance
-            for _ in 1...abs(distance) {
-                if index.column > 0 {
-                    index.column -= 1
-                } else {
-                    index.row -= 1
-                    index.column = COLUMNS-1
+            case -1:
+                for _ in 1...abs(distance) {
+                    if index.column > 0 {
+                        index.column -= 1
+                    } else {
+                        index.row -= 1
+                        index.column = COLUMNS-1
+                    }
                 }
-            }
-
-            // make sure index does not go beyond startIndex
-            index = index < startIndex ? startIndex : index
+            default: ()
         }
 
         // return index
