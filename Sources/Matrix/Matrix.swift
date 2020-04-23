@@ -38,7 +38,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         
         for row in grid {
             for (index, item) in row.enumerated() {
-                content += index != row.indices.last! ? "\(item)" : "\(item)\r\n"
+                content += index != row.indices.last! ? "\(item)\t" : "\(item)\r\n"
             }
         }
         return content
