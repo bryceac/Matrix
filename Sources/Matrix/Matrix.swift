@@ -77,7 +77,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
     } // end struct
     
     // MARK: Initializers
-    
+
     /**
      Initializer that can be used to create a Matrix with a particular value.
      
@@ -189,7 +189,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
      - Returns: Boolean that specifies whether index is valid.
      - Note: method is only available in methods and subscripts in the class.
      */
-    private func isValidIndex(row: Int, column: Int? = nil) -> Bool {
+    private func isValidIndex(row: Int? = nil, column: Int? = nil) -> Bool {
         // variable to hold condition results
         var isValid = true
         
@@ -198,12 +198,14 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
          
          Otherwise, check if the row is valid
          */
-        if let column = column {
+        if let column = column, let row = row {
             
             // call self to check row and then check the column
-            isValid = isValidIndex(row: row) && column >= 0 && column < COLUMNS
-        } else {
+            isValid = isValidIndex(row: row) && isValidIndex(column: column)
+        } else if let row = row {
             isValid = row >= 0 && row < ROWS
+        } else if let column = column {
+            isValid = column >= 0 && column < COLUMNS
         }
         
         // return results
