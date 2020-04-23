@@ -313,7 +313,6 @@ extension Matrix: RandomAccessCollection, MutableCollection {
                         index.row += 1
                         index.column = 0
                     }
-                    print(index)
                 }
 
                 // make sure index does not go beyond endIndex
