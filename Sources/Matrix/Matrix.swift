@@ -216,6 +216,13 @@ extension Matrix: RandomAccessCollection, MutableCollection {
          column index
          */
         public var column: Int
+
+        /**
+        default initializer
+        */
+        public init(row: Int, column: Int) {
+            (self.row, self.column) = (row, column)
+        }
         
         public static func ==(lhs: Index, rhs: Index) -> Bool {
             return lhs.row == rhs.row && lhs.column == rhs.column
