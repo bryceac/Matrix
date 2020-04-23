@@ -316,7 +316,7 @@ extension Matrix: RandomAccessCollection, MutableCollection {
                 }
 
                 // make sure index does not go beyond endIndex
-                index = index > endIndex ? endIndex: index
+                index = index > endIndex ? endIndex : index
             case -1:
                 // initiate loop based on the absolute value of the distance
                 for _ in 1...abs(distance) {
