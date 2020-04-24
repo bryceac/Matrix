@@ -294,6 +294,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
                     }
                 }
             case -1:
+                print(distance)
                 for _ in 1...abs(distance) {
                     if index.column > 0 {
                         index.column -= 1
