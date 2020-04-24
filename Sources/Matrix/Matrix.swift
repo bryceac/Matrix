@@ -282,6 +282,8 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
 
         var index = i
 
+        print(distance.signum())
+
         // base direction to go on whether distance is positive or negative
         switch distance.signum() {
             case 1:
