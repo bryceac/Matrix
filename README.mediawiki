@@ -68,7 +68,7 @@ let matrix = Matrix(withRows: 3, columns: 3, andDefaultValue: true)
 
 This creates a 3x3 matrix, where all rows and columns have a value of true. The type of the matrix is inferred to be Matrix<Bool>.
 
-====Matrix from 2D array====
+=====Matrix from 2D array=====
 
 <pre>
 let block = Matrix(withGrid: [Int](1...9).chunked(into: 3))
@@ -78,7 +78,7 @@ This creates a matrix with rows and columns determined by the number of arrays a
 
 The '''chunked(into:)''' method is not native to Swift, but is implemented by extension that is included with the library to turn an array into a 2D array.
 
-====Retrieving Rows====
+=====Retrieving Rows=====
 
 To retrieve a row from the matrix, all you would need to do is something like this:
 
@@ -88,7 +88,7 @@ block[0]
 
 Since 2D arrays are the backbone of a Matrix object, matrices are also start at 0, rather than 1.
 
-====Retrieving Columns====
+=====Retrieving Columns=====
 
 To retrieve a column, you would do it like this:
 
@@ -100,7 +100,7 @@ This will retrieve all elements in the first column of the matrix.
 
 Please note that this subscript cannot be used to manipulate elements to the columns themselves.
 
-====Retrieving Elements====
+=====Retrieving Elements=====
 
 Elements can be retrieved in a number of ways, depending on whether you want a particular object or a random one.
 
@@ -117,40 +117,6 @@ block[1,1]
 </pre>
 
 This will retrieve the second element in the second row.
-
-====Matrix of Matrices====
-
-While it is possible to nest matrices within each other with the normal Matrix type, things do not necessary work very well.
-
-If you desire to create a matrix of matrices (to save the hassle of sitatuations like regions not meeting requirements of Sudoku puzzles, or even retrieving embedded Matrices), it is best to use the SuperMatrix class instead.
-
-As SuperMatrix is a subclass of Matrix, initialization is pratically the same, though type inferrence is not possible.
-
-For this reason, a SuperMatrix would be initialized like this:
-
-<pre>
-let blocks: Super<Matrix<Int>, Int> = SuperMatrix(withGrid: [Matrix<Int>](repeating: block, count, 9).chunked(into: 3))
-</pre>
-
-This will create a 3x3 grid with 9 premade matrices embedded within.
-
-=====Retrieving Rows & Columns=====
-
-While retrieving rows and columns can be done like a normal Matrix object, these will only grab matrices within.
-
-To actually view the see the very first row, you would do something like this:
-
-<pre>
-blocks.row(0, in: 0)
-</pre>
-
-For the first column, it would be like this:
-
-<pre>
-blocks.column(0, in: 0)
-<pre>
-
-These methods can be used for comparisons, but they are unable to manipulate the contents of the rows or columns.
 
 ====Saving & Loading====
 
@@ -178,6 +144,4 @@ As can be seen, these functions can throw errors, so it is best not to do things
 
 ===Tentative Plans===
 
-Currently, nothing is planned to be added or removed, as it is good enough to be used in Sudoku puzzle generation.
-
-However, that does not mean that things will not change in the future, if more functionality is needed or desired.
+I did consider implementing range capabilities, but considering that matrices can be nested, there is nothing planned for now.
