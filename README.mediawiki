@@ -10,7 +10,7 @@
 
 ==Notes==
 
-This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too. Anything earlier than 5.1 is not guaranteed to work.
+While this was tested with Swift 5.2, this <strong>should</strong> work with Swift 5.1 too. Anything earlier than 5.1 is not guaranteed to work.
 
 ===Questions===
 
