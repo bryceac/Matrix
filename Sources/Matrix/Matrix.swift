@@ -1,3 +1,5 @@
+import Foundation
+
 /**
  class that represents Matrices of fixed constraints.
  */
