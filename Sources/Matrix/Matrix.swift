@@ -373,6 +373,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
             grid[row] = newValue
         }
     } // end subscript
+    
     // subscripts that allow data in a column to be retrieved
     public subscript(column column: Int) -> [T] {
         get {
@@ -420,7 +421,9 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
         }
     } // end subscript
 } // end class
+
 // MARK: Extensions
+
 // extension to make class automatically conform to Equatable
 extension Matrix: Equatable where T: Equatable {
     public static func ==(lhs: Matrix, rhs: Matrix) -> Bool {

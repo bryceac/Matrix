@@ -151,3 +151,9 @@ try? block.save(to: DOCUMENTS_DIRECTORY.appendingPathComponent("block").appendin
 </pre>
 
 As can be seen, these functions can throw errors, so it is best not to do things exactly like my example, unless you do not care what the errors are.
+
+===Support===
+
+If support is needed, you should be able to contact me through my <a href="brycecampbell.me">website</a>.
+
+However, though I may be more proficent in Swift now than when I started dabbling with it, I still do not know all the ins and outs, so you may ultimately be on your own anyway.
