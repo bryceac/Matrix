@@ -17,7 +17,7 @@ This was tested with Swift 5.2, <strong>should</strong> work with Swift 5.1 too.
 <ol>
 <li>
 <dl>
-<dt span=fontweight:bold">Why create yet another Matrix library?</dt>
+<dt span=font-weight:bold">Why create yet another Matrix library?</dt>
 <dd>
 <p>While many Matrix libraries exist, many specializing in the mathematical area, there were not any good enough to be useable for things like Sudoku puzzle, as well as let me learn a bit what it takes to create a collection.</p>
 <p>However, since the types defined are all generics, they can be used for other purposes.</p>
