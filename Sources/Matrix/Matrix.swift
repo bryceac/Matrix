@@ -406,6 +406,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
             grid[row][column] = newValue
         }
     } // end subscript
+    
     // subscript needed to make it possible to use an index object
     public subscript(position: Index) -> T {
         get {
