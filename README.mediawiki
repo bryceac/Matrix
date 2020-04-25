@@ -78,6 +78,16 @@ This creates a matrix with rows and columns determined by the number of arrays a
 
 The '''chunked(into:)''' method is not native to Swift, but is implemented by extension that is included with the library to turn an array into a 2D array.
 
+=====Matrix of Matrices=====
+
+While earlier iterations of this library required a subclass to do this well, this Matrix now works how it should.
+
+As a result, Matriices can be nested like a normal collection type.
+
+However, unlike regular collections, like Arrays, Sets, and Dictionaries, nested Matrices are not their own object when being assigned.
+
+To get around this, the '''copy()''' can be used to create a duplicate objects.
+
 =====Retrieving Rows=====
 
 To retrieve a row from the matrix, all you would need to do is something like this:
@@ -141,7 +151,3 @@ try? block.save(to: DOCUMENTS_DIRECTORY.appendingPathComponent("block").appendin
 </pre>
 
 As can be seen, these functions can throw errors, so it is best not to do things exactly like my example, unless you do not care what the errors are.
-
-===Tentative Plans===
-
-I did consider implementing range capabilities, but considering that matrices can be nested, there is nothing planned for now.
