@@ -438,8 +438,9 @@ extension Matrix: Hashable where T: Hashable {
         hasher.combine(grid)
     }
 } // end extension
+
 // extension to enable copying
-extension Matrix: NSCopying {
+extension Matrix {
 
     /**
     create a duplicate as a new object.
