@@ -2,7 +2,7 @@
 
 '''Description:''' A Library to create Matrixes easilly, regardless of Operating system.
 
-'''Version:''' 0.1
+'''Version:''' 0.2
 
 '''Author:''' Bryce C.
 
@@ -11,6 +11,15 @@
 ==Notes==
 
 While this was tested with Swift 5.2, this <strong>should</strong> work with Swift 5.1 too. Anything earlier than 5.1 is not guaranteed to work.
+
+===Version History===
+
+<dl>
+<dt span="font-weight: bold">0.2</dt>
+<dd>Add protocol, to allow functions for nested Matrices, and giving capability without subclassing.</dd>
+<dt span="font-weight: bold">0.1</dt>
+<dd>Initial release.</dd>
+</dl>
 
 ===Questions===
 
@@ -33,6 +42,7 @@ While this was tested with Swift 5.2, this <strong>should</strong> work with Swi
 <li>subscript to grab certain columns.</li>
 <li>ability to save and load matrices to and from JSON files.</li>
 <li>ability to shuffle matrices and use other methods available to all swift collections.</li>
+<li>functions to grab certain rows and columns in matrices of matrices. (added in 0.2)</li>
 </ul>
 
 ===Installing===
@@ -98,6 +108,14 @@ block[0]
 
 Since 2D arrays are the backbone of a Matrix object, matrices are also start at 0, rather than 1.
 
+If dealing with a Matrix of matrices, you would do this instead:
+
+<pre>
+block.row(0, in: 0)
+</pre>
+
+<strong>Please be aware that the first parameter must be a valid index in the child matrix.</strong>
+
 =====Retrieving Columns=====
 
 To retrieve a column, you would do it like this:
@@ -109,6 +127,14 @@ block[column: 0]
 This will retrieve all elements in the first column of the matrix.
 
 Please note that this subscript cannot be used to manipulate elements to the columns themselves.
+
+If dealing with a Matrix of matrices, you would do this instead:
+
+<pre>
+block.column(0, in: 0)
+</pre>
+
+<strong>Like the one for rows, the first number must be a valid index in the child matrix.</strong>
 
 =====Retrieving Elements=====
 
