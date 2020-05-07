@@ -376,7 +376,9 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
     
     // MARK: Subscripts
     
-    // subscripts that allow data in a row to be retrieved
+    /**
+    retrieve elements in a specified row or manipulate a row.
+    */
     public subscript(row: Int) -> [T] {
         get {
             guard isValidIndex(row: row) else {
@@ -395,7 +397,9 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
         }
     } // end subscript
     
-    // subscripts that allow data in a column to be retrieved
+    /**
+    retrieve elements in a column.
+    */
     public subscript(column column: Int) -> [T] {
         get {
             guard isValidIndex(column: column) else {
@@ -412,7 +416,9 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
         }
     } // end subscript
     
-    // subscript to grab and set elements in a coordinate-like manner.
+    /**
+    retrieve or set elements at a particular coordinate.
+    */
     public subscript(row: Int, column: Int) -> T {
         get {
             guard isValidIndex(row: row, column: column) else {
@@ -431,7 +437,9 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
         }
     } // end subscript
     
-    // subscript needed to make it possible to use an index object
+    /**
+    retrieve or set element at a specified position.
+    */
     public subscript(position: Index) -> T {
         get {
             return self[position.row, position.column]
@@ -458,5 +466,35 @@ extension Matrix: Hashable where T: Hashable {
         hasher.combine(ROWS)
         hasher.combine(COLUMNS)
         hasher.combine(grid)
+    }
+} // end extension
+
+// extension to add functions that only exist when Matrix contains other matrices.
+extension Matrix where T: MatrixProtocol {
+    
+    /**
+    retrieve particular rows from matrix of matrices.
+    - Parameters:
+        - parameter number: the row number in the child matrix.
+        - parameter parent: the row number in the parent matrix.
+    - Returns: 2D array of elements in a row.
+    */
+    public func row(_ number: Int, in parent: Int) -> [[T.Element]] {
+        return self[parent].map { matrix in
+            matrix[number]
+        }
+    }
+
+    /**
+    retrieve particular columns from matrix of matrices.
+    - Parameters:
+        - parameter number: the column number in the child matrix.
+        - parameter parent: the column number in the parent matrix.
+    - Returns: 2D array of elements in a column.
+    */
+    public func column(_ number: Int, in parent: Int) -> [[T.Element]] {
+        return self[column: parent].map { matrix in
+            matrix[column: number]
+        }
     }
 } // end extension
