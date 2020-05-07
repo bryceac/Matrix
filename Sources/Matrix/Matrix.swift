@@ -1,9 +1,20 @@
 import Foundation
 
 /**
+protocol that ensures object will have subscripts and functions for matrices.
+
+This is not to be conformed to directly, as its purpose is allow extensions that tackle matrices of matrices.
+*/
+public protocol MatrixProtocol: Codable, RandomAccessCollection, MutableCollection {
+    subscript(row: Int) -> [Element] { get set }
+    subscript(row: Int, column: Int) -> Element { get set }
+    subscript(column column: Int) -> [Element] { get }
+}
+
+/**
  class that represents Matrices of fixed constraints.
  */
-public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessCollection, MutableCollection {
+public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 	
 	public typealias Iterator = MatrixIterator<T>
     
@@ -352,6 +363,16 @@ public class Matrix<T: Codable>: CustomStringConvertible, Codable, RandomAccessC
 	public func makeIterator() -> Iterator {
 		return MatrixIterator(withMatrix: self)
 	}
+
+    /**
+    create a duplicate as a new object.
+    - Returns: an Any Object that should be the same as the original.
+    - Note: This must be cast to the appropriate type.
+    */
+    public func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Matrix(withGrid: grid)
+        return copy
+    }
     
     // MARK: Subscripts
     
@@ -430,6 +451,7 @@ extension Matrix: Equatable where T: Equatable {
         return lhs.ROWS == rhs.ROWS && lhs.COLUMNS == rhs.COLUMNS
     }
 } // end extension
+
 // extension to make class automatically conform to Hashable
 extension Matrix: Hashable where T: Hashable {
     public func hash(into hasher: inout Hasher) {
@@ -438,17 +460,3 @@ extension Matrix: Hashable where T: Hashable {
         hasher.combine(grid)
     }
 } // end extension
-
-// extension to enable copying
-extension Matrix {
-
-    /**
-    create a duplicate as a new object.
-    - Returns: an Any Object that should be the same as the original.
-    - Note: This must be cast to the appropriate type.
-    */
-    public func copy(with zone: NSZone? = nil) -> Any {
-        let copy = Matrix(withGrid: grid)
-        return copy
-    }
-}
