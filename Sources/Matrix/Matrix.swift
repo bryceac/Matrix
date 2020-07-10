@@ -67,7 +67,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
     // MARK: Enumerations & Structures
     
     /**
-        enumeration that helps in specifies the keys used in serialization and deserialization
+        enumeration that helps in specifying the keys used in serialization and deserialization
      */
     public enum CodingKeys: String, CodingKey {
         case grid
@@ -150,7 +150,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
     class method that allows Matrices to be loaded from a file.
     - parameter path: the URL for the JSON file.
     - Throws: any errors that crop up from reading files or decoding te JSON, which would be a `DecodingError`.
-    - Returns: if File cannot be loaded or parsed, nil will be returned.
+    - Returns: Matrix object.
     - Note: This method is not to be used with remote files, due to how it grabs the data
     */
     public class func load(from path: URL) throws -> Matrix<T> {
