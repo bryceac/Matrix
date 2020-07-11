@@ -2,7 +2,7 @@
 
 '''Description:''' A Library to create Matrixes easilly, regardless of Operating system.
 
-'''Version:''' 0.2
+'''Version:''' 0.2.1
 
 '''Author:''' Bryce C.
 
@@ -15,6 +15,8 @@ While this was tested with Swift 5.2, this <strong>should</strong> work with Swi
 ===Version History===
 
 <dl>
+<dt span="font-weight: bold">0.2.1</dt>
+<dd>convert functions for Matrix of matrices to subscript.</dt>
 <dt span="font-weight: bold">0.2</dt>
 <dd>Add protocol, to allow functions for nested Matrices, and giving capability without subclassing.</dd>
 <dt span="font-weight: bold">0.1</dt>
@@ -42,7 +44,7 @@ While this was tested with Swift 5.2, this <strong>should</strong> work with Swi
 <li>subscript to grab certain columns.</li>
 <li>ability to save and load matrices to and from JSON files.</li>
 <li>ability to shuffle matrices and use other methods available to all swift collections.</li>
-<li>functions to grab certain rows and columns in matrices of matrices. (added in 0.2)</li>
+<li>subscripts to grab certain rows and columns in matrices of matrices. (modified in 0.2.1)</li>
 </ul>
 
 ===Installing===
@@ -106,15 +108,17 @@ To retrieve a row from the matrix, all you would need to do is something like th
 block[0]
 </pre>
 
-Since 2D arrays are the backbone of a Matrix object, matrices are also start at 0, rather than 1.
+Since 2D arrays are the backbone of a Matrix object, matrices also start at 0, rather than 1.
 
 If dealing with a Matrix of matrices, you would do this instead:
 
 <pre>
-block.row(0, in: 0)
+block[y: 0]
 </pre>
 
-<strong>Please be aware that the first parameter must be a valid index in the child matrix.</strong>
+In the older iteration, you would have had to know the column count and row count of the nested matrices, but this subscript does the work for you, making it so that it is possible to give an index of 8 to get the 9<sup>th</sup> row.
+
+<strong>The [y:] subscript does not allow modification of elements.</strong> 
 
 =====Retrieving Columns=====
 
@@ -131,10 +135,12 @@ Please note that this subscript cannot be used to manipulate elements to the col
 If dealing with a Matrix of matrices, you would do this instead:
 
 <pre>
-block.column(0, in: 0)
+block[x: 0]
 </pre>
 
-<strong>Like the one for rows, the first number must be a valid index in the child matrix.</strong>
+<p>Like the matrix of matrices row subscript above, this grabs the appropriate column by allowing one to specify something 8 to get the ninth column.</p>
+
+<strong>Also like the matrix of matrices row subscript, the [x:] subscript does not allow elements to be modified.</strong>
 
 =====Retrieving Elements=====
 
