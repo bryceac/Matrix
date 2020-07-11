@@ -16,7 +16,7 @@ While this was tested with Swift 5.2, this <strong>should</strong> work with Swi
 
 <dl>
 <dt span="font-weight: bold">0.2.1</dt>
-<dd>convert functions for Matrix of matrices to subscript.</dt>
+<dd>convert functions for Matrix of matrices to subscript.</dd>
 <dt span="font-weight: bold">0.2</dt>
 <dd>Add protocol, to allow functions for nested Matrices, and giving capability without subclassing.</dd>
 <dt span="font-weight: bold">0.1</dt>
