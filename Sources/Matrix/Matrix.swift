@@ -473,5 +473,73 @@ extension Matrix: Hashable where T: Hashable {
 
 // extension to add functions that only exist when Matrix contains other matrices.
 extension Matrix where T: MatrixProtocol {
-    
+    /// number of rows in mtrix of matrixa
+	public var totalRows: Int {
+		var total = 0
+		
+		for row in grid {
+			
+			// find matrix with most rows in row
+			let MATRIX_WITH_MOST_ROWS = row.max { $0.ROWS < $1.ROWS }!
+			
+			// add row count to grand total
+			total += MATRIX_WITH_MOST_ROWS.ROWS
+		}
+		
+		return total
+	}
+	
+	/// number of columns in matrix of matrix
+	public var totalColumns: Int {
+		
+		// create dictionary to hold column counts
+		var columnCounts: [Int: Int] = [:]
+		
+		// variable to hold maximum number of columns
+		var total = 0
+		
+		// count up the columns in each row and add it to the dictionary
+		for (index, row) in grid.enumerated() {
+			columnCounts[index] = row.reduce(0) { $0 + $1.COLUMNS }
+		}
+		
+		// determine which key has the highest value and set that as the grand total
+		total = columnCounts.max { a, b in
+			a.value < b.value
+		}!.value
+		
+		return total
+	}
+
+	/**
+	retrieve items in a particular row.
+	- Parameter y: the row index.
+	- Precondition: specified number must be smaller than the total number of rows, but not less than 0.
+	- Returns: 2D array of all elements in a row.
+	*/
+	public subscript(y y: Int) -> [[T.Element]] {
+		guard y >= 0 && y < totalRows else {
+			preconditionFailure("index must be between 0 and \(totalRows-1)")
+		}
+	
+		let COORDINATES = y.quotientAndRemainder(dividingBy: ROWS)
+		
+		return self[COORDINATES.quotient].map { $0[COORDINATES.remainder] }
+	}
+	
+	/**
+	retrieve items in a particular column.
+	- Parameter x: the column index.
+	- Precondition: specified number must be less than the total number of columns, but not less than 0.
+	- Returns: 2D array of all elements in a column.
+	*/
+	public subscript(x x: Int) -> [[T.Element]] {
+		guard x >= 0 && x < totalColumns else {
+			preconditionFailure("index must be between 0 and \(totalColumns-1)")
+		}
+		
+		let COORDINATES = x.quotientAndRemainder(dividingBy: COLUMNS)
+		
+		return self[column: COORDINATES.quotient].map { $0[column: COORDINATES.remainder] }
+	}
 } // end extension
