@@ -6,6 +6,8 @@ protocol that ensures object will have subscripts and functions for matrices.
 This is not to be conformed to directly, as its purpose is allow extensions that tackle matrices of matrices.
 */
 public protocol MatrixProtocol: Codable, RandomAccessCollection, MutableCollection {
+    var COLUMNS: Int { get }
+	var ROWS: Int { get }
     subscript(row: Int) -> [Element] { get set }
     subscript(row: Int, column: Int) -> Element { get set }
     subscript(column column: Int) -> [Element] { get }
