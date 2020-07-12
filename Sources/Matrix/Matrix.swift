@@ -458,7 +458,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 // extension to make class automatically conform to Equatable
 extension Matrix: Equatable where T: Equatable {
     public static func ==(lhs: Matrix, rhs: Matrix) -> Bool {
-        return lhs.ROWS == rhs.ROWS && lhs.COLUMNS == rhs.COLUMNS
+        return lhs.ROWS == rhs.ROWS && lhs.COLUMNS == rhs.COLUMNS && lhs.grid == rhs.grid
     }
 } // end extension
 
