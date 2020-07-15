@@ -78,7 +78,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 	/**
      Position of a Matrix Element
      */
-    public struct Index: Comparable {
+    public struct Index: Comparable, Hashable {
         /**
          row index
          */
