@@ -518,7 +518,7 @@ extension Matrix where T: MatrixProtocol {
 	- Returns: 2D array of all elements in a row.
 	*/
 	public subscript(y y: Int) -> [[T.Element]] {
-		guard y >= 0 && y < totalRows else {
+		guard case 0..<totalRows = y else {
 			preconditionFailure("index must be between 0 and \(totalRows-1)")
 		}
 	
@@ -534,7 +534,7 @@ extension Matrix where T: MatrixProtocol {
 	- Returns: 2D array of all elements in a column.
 	*/
 	public subscript(x x: Int) -> [[T.Element]] {
-		guard x >= 0 && x < totalColumns else {
+		guard case 0..<totalColumns = x else {
 			preconditionFailure("index must be between 0 and \(totalColumns-1)")
 		}
 		
