@@ -99,11 +99,9 @@ The '''chunked(into:)''' method is not native to Swift, but is implemented by ex
 
 While earlier iterations of this library required a subclass to do this well, this Matrix now works how it should.
 
-As a result, Matriices can be nested like a normal collection type.
+As a result, Matrices can be nested like a normal collection type.
 
-However, unlike regular collections, like Arrays, Sets, and Dictionaries, nested Matrices are not their own object when being assigned.
-
-To get around this, the '''copy()''' can be used to create a duplicate objects.
+As of version 0.3, Matrices are their own objects.
 
 =====Retrieving Rows=====
 
