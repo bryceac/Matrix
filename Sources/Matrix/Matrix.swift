@@ -261,7 +261,7 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
      */
     public func index(after i: Index) -> Index {
 
-        // make sure index comes before endIndex, other return endIndex
+        // make sure index comes before endIndex, otherwise return endIndex
         guard i < endIndex else {
             return endIndex
         }
