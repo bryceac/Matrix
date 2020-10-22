@@ -355,7 +355,7 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
     /**
     shuffles elements in grid in place.
     */
-    public func shuffle() {
+    public mutating func shuffle() {
         grid = self.shuffled().chunked(into: COLUMNS)
     }
 	
