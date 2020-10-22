@@ -2,7 +2,7 @@
 
 '''Description:''' A Library to create Matrixes easilly, regardless of Operating system.
 
-'''Version:''' 0.2.2
+'''Version:''' 0.3
 
 '''Author:''' Bryce C.
 
@@ -15,6 +15,9 @@ While this was tested with Swift 5.2, this <strong>should</strong> work with Swi
 ===Version History===
 
 <dl>
+<dt span="font-weight:bold">0.3</dt>
+<dd>
+<p>change Matrix from a class to a structure, to make copying easier.</p>
 <dt span="font-weight: bold">0.2.2</dt>
 <dd>make indices hashable.</dd>
 <dt span="font-weight: bold">0.2.1</dt>
