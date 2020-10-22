@@ -16,7 +16,7 @@ public protocol MatrixProtocol: Codable, RandomAccessCollection, MutableCollecti
 /**
  class that represents Matrices of fixed constraints.
  */
-public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
+public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 	
 	public typealias Iterator = MatrixIterator<T>
     
@@ -71,7 +71,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
     /**
         enumeration that helps in specifying the keys used in serialization and deserialization
      */
-    public enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case grid
     }
 	
@@ -136,7 +136,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
      - Returns: Matrix object from a Data Object.
      - Note: This method is not be used directly, as the appropriate Decoder object uses the method.
      */
-    public required convenience init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         // create container with certain keys
         let CONTAINER = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -155,7 +155,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
     - Returns: Matrix object.
     - Note: This method is not to be used with remote files, due to how it grabs the data
     */
-    public class func load(from path: URL) throws -> Matrix<T> {
+    public static func load(from path: URL) throws -> Matrix<T> {
         
         // create JSON decoder object
         let JSON_DECODER = JSONDecoder()
@@ -365,16 +365,6 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 	public func makeIterator() -> Iterator {
 		return MatrixIterator(withMatrix: self)
 	}
-
-    /**
-    create a duplicate as a new object.
-    - Returns: an Any Object that should be the same as the original.
-    - Note: This must be cast to the appropriate type.
-    */
-    public func copy(with zone: NSZone? = nil) -> Any {
-        let copy = Matrix(withGrid: grid)
-        return copy
-    }
     
     // MARK: Subscripts
     
@@ -451,7 +441,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
             self[position.row, position.column] = newValue
         }
     } // end subscript
-} // end class
+} // end struct
 
 // MARK: Extensions
 
