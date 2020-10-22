@@ -134,7 +134,7 @@ public class Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
     /**
      Initializer used for decode Matrix object from a Data object.
      - Returns: Matrix object from a Data Object.
-     - Note: This method is not be used directly, as the appropriate Encoder object uses the method.
+     - Note: This method is not be used directly, as the appropriate Decoder object uses the method.
      */
     public required convenience init(from decoder: Decoder) throws {
         // create container with certain keys
