@@ -19,6 +19,7 @@ public protocol MatrixProtocol: Codable, RandomAccessCollection, MutableCollecti
 public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 	
 	public typealias Iterator = MatrixIterator<T>
+    public typealias Index = MatrixIndex
     
     // MARK: Properties
     /**
@@ -66,7 +67,7 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 		return grid.joined().count
 	}
 	
-    // MARK: Enumerations & Structures
+    // MARK: Enumerations
     
     /**
         enumeration that helps in specifying the keys used in serialization and deserialization
@@ -74,29 +75,6 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
     private enum CodingKeys: String, CodingKey {
         case grid
     }
-	
-	/**
-     Position of a Matrix Element
-     */
-    public struct Index: Comparable, Hashable {
-        /**
-         row index
-         */
-        public var row: Int
-        
-        /**
-         column index
-         */
-        public var column: Int
-        
-        public static func ==(lhs: Index, rhs: Index) -> Bool {
-            return lhs.row == rhs.row && lhs.column == rhs.column
-        }
-        
-        public static func < (lhs: Index, rhs: Index) -> Bool {
-            return lhs.row < rhs.row || lhs.column < rhs.column
-        }
-    } // end struct
 
     // MARK: Initializers
     /**
@@ -114,6 +92,9 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
         (ROWS, COLUMNS) = (rows, columns)
         
         grid = [T](repeating: defaultValue, count: rows*columns).chunked(into: columns)
+
+        Index.maxRowNumber = ROWS
+        Index.maxColumnNumber = COLUMNS-1
     }
     
     /**
@@ -129,6 +110,9 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
         
         // set properties of Matrix
         (ROWS, COLUMNS, self.grid) = (grid.count, LONGEST_ROW.count, grid)
+
+        Index.maxRowNumber = ROWS
+        Index.maxColumnNumber = COLUMNS-1
     }
     
     /**
