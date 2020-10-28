@@ -220,120 +220,38 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
      retrieve an index preceeding a given index.
      */
     public func index(before i: Index) -> Index {
-        
-        // make sure given indice comes after startIndex, otherwise return startIndex
-        guard i > startIndex else {
-            return startIndex
-        }
-        
-        // store index in variable
-        var index = i
-        
-        // check if column is 0 and make adjustments accordingly
-        if index.column > 0 {
-            index.column -= 1
-        } else {
-            index.row -= 1
-            index.column = COLUMNS-1
-        }
-        
-        return index
+        guard i != startIndex else { return startIndex }
+        return i.advanced(by: -1)
     } // end method
     
     /**
      retrieve index after a given index.
      */
     public func index(after i: Index) -> Index {
-
-        // make sure index comes before endIndex, otherwise return endIndex
-        guard i < endIndex else {
-            return endIndex
-        }
-        
-        // store index in variable
-        var index = i
-        
-        // check if column is less than the maximum number of columns and adjust accordingly
-        if index.column < COLUMNS-1 {
-            index.column += 1
-        } else {
-            index.row += 1
-            index.column = 0
-        }
-        
-        // return new index
-        return index
+        guard i != endIndex else { return i }
+        return i.advanced(by: 1)
     } // end method
+
     /**
     get an index by offsetting a given index.
     - Paramters:
         - paramter i: index to start with.
         - parameter distance: the offset.
     - Returns: Index with the desired offset.
+    - Precondition: distance must be negative if i is endIndex and positive if i is startIndex.
     - Note: if specified offset could possibly go out of bounds, either startIndex or endIndex will be returned.
     */
     public func index(_ i: Index, offsetBy distance: Int) -> Index {
-
-        /*
-        make sure either offset is negative, if the given index is the endIndex, or positive if the startIndex.
-        
-        Otherwise return the index back without doing anything
-        */
-        guard i == startIndex && distance.signum() == 1 || i == endIndex && distance.signum() == -1 || i != startIndex && i != endIndex else {
-            return i
+        guard case startIndex...endIndex = i else { return i < startIndex ? startIndex : endIndex }
+        guard i >= startIndex && distance.signum() == 1 || i <= endIndex && distance.signum() == -1 else {
+            if i == startIndex {
+                preconditionFailure("distance must be a positive value if the given index is the startIndex")
+            } else {
+                preconditionFailure("distance must be negative if the given index is the endIndex")
+            }
         }
 
-        var index = i
-
-        // base direction to go on whether distance is positive or negative
-        switch distance.signum() {
-            case 1:
-                for _ in 1...distance {
-                    index = self.index(after: index)
-                }
-            case -1:
-                for _ in 1...abs(distance) {
-                    index = self.index(before: index)
-                }
-            default: ()
-        }
-
-        // return index
-        return index
-    } // end function
-    /**
-    calculate the distance between two indices.
-    - Parameters:
-        - parameter start: index to start from
-        - parameter end: index to compare with
-    - Returns: a positive or negative integer, depending on which index was larger.
-    */
-    public func distance(from start: Index, to end: Index) -> Int {
-        var steps = 0
-        var index = start
-
-        /* 
-        Determine whether start index is greater than or less than end index.
-        Depending on result, execute appropriate loop to get start index to be equal to the end, while counting iterations.
-        */
-        switch index {
-            case let i where i < end:
-                while index < end {
-                    index = self.index(after: i)
-
-                    steps += 1
-                }
-            case let i where i > end:
-                while index > end {
-                    index = self.index(before: index)
-                    
-                    // converts steps to negative
-                    steps -= 1
-                }
-            default: ()
-        }
-
-        return steps
+        return i.advanced(by: distance)
     } // end function
     
     /**
