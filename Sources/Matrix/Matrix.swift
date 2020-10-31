@@ -107,45 +107,6 @@ public struct Matrix<T>: CustomStringConvertible, MatrixProtocol {
     }
     
     // MARK: Functions
-    /**
-    class method that allows Matrices to be loaded from a file.
-    - parameter path: the URL for the JSON file.
-    - Throws: any errors that crop up from reading files or decoding te JSON, which would be a `DecodingError`.
-    - Returns: Matrix object.
-    - Note: This method is not to be used with remote files, due to how it grabs the data
-    */
-    public static func load(from path: URL) throws -> Matrix<T> {
-        
-        // create JSON decoder object
-        let JSON_DECODER = JSONDecoder()
-
-        // attempt to parse JSON
-        let JSON_DATA = try Data(contentsOf: path)
-        let MATRIX = try JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA)
-
-        // return decoded Matrix object
-        return MATRIX
-    }
-    
-    /**
-    save JSON to a particular path.
-    - parameter path: file path
-    - Throws: an error regarding the writing of the file, in the event it fails to save, or an `EncodigError`.
-    */
-    public func save(to path: URL) throws {
-
-        // create JSONEncoder object
-        let JSON_ENCODER = JSONEncoder()
-
-        // beautify the output, for easy reading
-        JSON_ENCODER.outputFormatting = .prettyPrinted
-
-        // attempt to encode the Matrix
-        let ENCODED_MATRIX = try JSON_ENCODER.encode(self)
-
-        // attempt to write data to path
-        try ENCODED_MATRIX.write(to: path, options: .atomic)
-    }
     
     /**
      method to check if given index is valid
@@ -345,6 +306,46 @@ extension Matrix: Codable where T: Codable {
         
         // attempt to add grid to container
         try container.encode(grid, forKey: .grid)
+    }
+
+    /**
+    class method that allows Matrices to be loaded from a file.
+    - parameter path: the URL for the JSON file.
+    - Throws: any errors that crop up from reading files or decoding te JSON, which would be a `DecodingError`.
+    - Returns: Matrix object.
+    - Note: This method is not to be used with remote files, due to how it grabs the data
+    */
+    public static func load(from path: URL) throws -> Matrix<T> {
+        
+        // create JSON decoder object
+        let JSON_DECODER = JSONDecoder()
+
+        // attempt to parse JSON
+        let JSON_DATA = try Data(contentsOf: path)
+        let MATRIX = try JSON_DECODER.decode(Matrix<T>.self, from: JSON_DATA)
+
+        // return decoded Matrix object
+        return MATRIX
+    }
+    
+    /**
+    save JSON to a particular path.
+    - parameter path: file path
+    - Throws: an error regarding the writing of the file, in the event it fails to save, or an `EncodigError`.
+    */
+    public func save(to path: URL) throws {
+
+        // create JSONEncoder object
+        let JSON_ENCODER = JSONEncoder()
+
+        // beautify the output, for easy reading
+        JSON_ENCODER.outputFormatting = .prettyPrinted
+
+        // attempt to encode the Matrix
+        let ENCODED_MATRIX = try JSON_ENCODER.encode(self)
+
+        // attempt to write data to path
+        try ENCODED_MATRIX.write(to: path, options: .atomic)
     }
 }
 
