@@ -1,4 +1,4 @@
-public struct MatrixIterator<T: Codable>: IteratorProtocol {
+public struct MatrixIterator<T>: IteratorProtocol {
 	public var rowIndex: Int = 0
 	public var columnIndex: Int = 0
 	
