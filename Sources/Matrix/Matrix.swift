@@ -5,7 +5,7 @@ protocol that ensures object will have subscripts and functions for matrices.
 
 This is not to be conformed to directly, as its purpose is allow extensions that tackle matrices of matrices.
 */
-public protocol MatrixProtocol: Codable, RandomAccessCollection, MutableCollection {
+public protocol MatrixProtocol: RandomAccessCollection, MutableCollection {
     var COLUMNS: Int { get }
 	var ROWS: Int { get }
     subscript(row: Int) -> [Element] { get set }
@@ -16,7 +16,7 @@ public protocol MatrixProtocol: Codable, RandomAccessCollection, MutableCollecti
 /**
  class that represents Matrices of fixed constraints.
  */
-public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
+public struct Matrix<T>: CustomStringConvertible, MatrixProtocol {
 	
 	public typealias Iterator = MatrixIterator<T>
     public typealias Index = MatrixIndex
@@ -66,15 +66,6 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 	public var count: Int {
 		return grid.joined().count
 	}
-	
-    // MARK: Enumerations
-    
-    /**
-        enumeration that helps in specifying the keys used in serialization and deserialization
-     */
-    private enum CodingKeys: String, CodingKey {
-        case grid
-    }
 
     // MARK: Initializers
     /**
@@ -115,22 +106,6 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
         Index.maxColumnNumber = COLUMNS-1
     }
     
-    /**
-     Initializer used for decode Matrix object from a Data object.
-     - Returns: Matrix object from a Data Object.
-     - Note: This method is not be used directly, as the appropriate Decoder object uses the method.
-     */
-    public init(from decoder: Decoder) throws {
-        // create container with certain keys
-        let CONTAINER = try decoder.container(keyedBy: CodingKeys.self)
-        
-        // try to grab object with specified key
-        let GRID = try CONTAINER.decode([[T]].self, forKey: .grid)
-        
-        // create Matrix object
-        self.init(withGrid: GRID)
-    }
-    
     // MARK: Functions
     /**
     class method that allows Matrices to be loaded from a file.
@@ -152,19 +127,6 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
         return MATRIX
     }
     
-    /**
-     method used to encode Matrix object to data
-     - Note: This function is not to be used directly, since the appropriate Encoder object uses this method.
-     */
-    public func encode(to encoder: Encoder) throws {
-        
-        // create a container with specified keys
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        // attempt to add grid to container
-        try container.encode(grid, forKey: .grid)
-    }
-
     /**
     save JSON to a particular path.
     - parameter path: file path
@@ -347,14 +309,59 @@ public struct Matrix<T: Codable>: CustomStringConvertible, MatrixProtocol {
 
 // MARK: Extensions
 
-// extension to make class automatically conform to Equatable
+// extension to make struct conform to Codable
+extension Matrix: Codable where T: Codable {
+    /**
+        enumeration that helps in specifying the keys used in serialization and deserialization
+     */
+    private enum CodingKeys: String, CodingKey {
+        case grid
+    }
+
+    /**
+     Initializer used for decode Matrix object from a Data object.
+     - Returns: Matrix object from a Data Object.
+     - Note: This method is not be used directly, as the appropriate Decoder object uses the method.
+     */
+    public init(from decoder: Decoder) throws {
+        // create container with certain keys
+        let CONTAINER = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // try to grab object with specified key
+        let GRID = try CONTAINER.decode([[T]].self, forKey: .grid)
+        
+        // create Matrix object
+        self.init(withGrid: GRID)
+    }
+
+    /**
+     method used to encode Matrix object to data
+     - Note: This function is not to be used directly, since the appropriate Encoder object uses this method.
+     */
+    public func encode(to encoder: Encoder) throws {
+        
+        // create a container with specified keys
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        // attempt to add grid to container
+        try container.encode(grid, forKey: .grid)
+    }
+}
+
+extension Matrix: Comparable where T: Comparable {
+    public static func < (lhs: Matrix<T>, rhs: Matrix<T>) -> Bool {
+        return lhs.ROWS < rhs.ROWS || lhs.COLUMNS < rhs.COLUMNS || lhs.count < rhs.count
+    }
+}
+
+// extension to make struct automatically conform to Equatable
 extension Matrix: Equatable where T: Equatable {
     public static func ==(lhs: Matrix, rhs: Matrix) -> Bool {
         return lhs.ROWS == rhs.ROWS && lhs.COLUMNS == rhs.COLUMNS && lhs.grid == rhs.grid
     }
 } // end extension
 
-// extension to make class automatically conform to Hashable
+// extension to make struct automatically conform to Hashable
 extension Matrix: Hashable where T: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(ROWS)
