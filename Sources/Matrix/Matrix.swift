@@ -8,6 +8,7 @@ This is not to be conformed to directly, as its purpose is allow extensions that
 public protocol MatrixProtocol: RandomAccessCollection, MutableCollection {
     var COLUMNS: Int { get }
 	var ROWS: Int { get }
+    var grid: [[Element]] { get set }
     subscript(row: Int) -> [Element] { get set }
     subscript(row: Int, column: Int) -> Element { get set }
     subscript(column column: Int) -> [Element] { get }
@@ -143,7 +144,10 @@ public struct Matrix<T>: CustomStringConvertible, MatrixProtocol {
      retrieve an index preceeding a given index.
      */
     public func index(before i: Index) -> Index {
-        guard i != startIndex else { return startIndex }
+        guard i != startIndex else {
+            fatalError("index specified cannot be the start index.")
+        }
+
         return i.advanced(by: -1)
     } // end method
     
@@ -151,7 +155,10 @@ public struct Matrix<T>: CustomStringConvertible, MatrixProtocol {
      retrieve index after a given index.
      */
     public func index(after i: Index) -> Index {
-        guard i != endIndex else { return i }
+        guard i != endIndex else {
+            fatalError("index specified cannot be the end index, as endIndex is already an invalid index.")
+        }
+
         return i.advanced(by: 1)
     } // end method
 
