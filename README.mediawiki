@@ -15,7 +15,7 @@ While this was tested with Swift 5.2, this <strong>should</strong> work with Swi
 ===Version History===
 
 <dl>
-<dt span="font-weight:bold">0.3.3</dt>
+<dt span="font-weight:bold">0.3.2</dt>
 <dd>
 <p>Matrix no longer Codable by default, but is Codable if the contained element conforms to Codable.</p>
 </dd>
