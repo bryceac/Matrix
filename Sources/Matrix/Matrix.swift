@@ -73,9 +73,9 @@ public struct Matrix<T>: CustomStringConvertible, MatrixProtocol {
      Initializer that can be used to create a Matrix with a particular value.
      
      - Parameters:
-        - parameter rows: the number of rows.
-        - parameter columns: the number of columns.
-        - parameter defaultValue: the value to use.
+        - rows: the number of rows.
+        - columns: the number of columns.
+        - defaultValue: the value to use.
      - Returns: Matrix whose rows and columns all contain the same value.
      */
     public init(withRows rows: Int, columns: Int, andDefaultValue defaultValue: T) {
@@ -92,7 +92,7 @@ public struct Matrix<T>: CustomStringConvertible, MatrixProtocol {
     /**
      Initializer that can create a Matriz from a predefined 2D array.
      - Parameters:
-        - parameter grid: the 2D array to use in Matrix
+        - grid: the 2D array to use in Matrix
      - Returns: Matrix object made of the specified 2D array
      */
     public init(withGrid grid: [[T]]) {
@@ -103,6 +103,19 @@ public struct Matrix<T>: CustomStringConvertible, MatrixProtocol {
         // set properties of Matrix
         (ROWS, COLUMNS, self.grid) = (grid.count, LONGEST_ROW.count, grid)
 
+        Index.maxRowNumber = ROWS
+        Index.maxColumnNumber = COLUMNS-1
+    }
+    
+    /**
+     initializer that can create a Matrix from a predefined 2D array, with a specified number of columns.
+     - Parameters:
+        - columns: The number columns that will be in the matrix
+        - grid: The grid
+     - Returns: Matrix object with a specific number of columns.
+     */
+    public init(columns: Int, withGrid grid: [[T]]) {
+        (ROWS, COLUMNS, self.grid) = (grid.count, columns, grid)
         Index.maxRowNumber = ROWS
         Index.maxColumnNumber = COLUMNS-1
     }
