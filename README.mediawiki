@@ -2,7 +2,7 @@
 
 '''Description:''' A Library to create Matrixes easilly, regardless of Operating system.
 
-'''Version:''' 0.3.2
+'''Version:''' 0.3.3
 
 '''Author:''' Bryce C.
 
@@ -15,6 +15,10 @@ While this was tested with Swift 5.2, this <strong>should</strong> work with Swi
 ===Version History===
 
 <dl>
+<dt span="font-weight:bold">0.3.3</dt>
+<dd>
+<p>add a new initializer and fix up comments.</p>
+</dd>
 <dt span="font-weight:bold">0.3.2</dt>
 <dd>
 <p>Matrix no longer Codable by default, but is Codable if the contained element conforms to Codable.</p>
